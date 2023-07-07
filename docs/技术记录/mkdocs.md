@@ -454,10 +454,6 @@ Here's a simple footnote,[^1] and here's a longer one.[^bignote]
 
 ++ctrl+alt+del++
 
-### Grids
-
-自行查看[官方文档](https://squidfunk.github.io/mkdocs-material/reference/grids/)，包含grid布局
-
 ### Icons, Emojis
 
 基本语法

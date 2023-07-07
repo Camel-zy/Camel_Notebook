@@ -1,3 +1,4 @@
+{% if page.meta.comments!=false %}
 <h2 id="__comments">{{ lang.t("meta.comments") }}</h2>
 <!-- Insert generated snippet here -->
 <script src="https://giscus.app/client.js" data-repo="Camel-zy/Camel_Notebook" data-repo-id="R_kgDOJ4k4Ww"
@@ -34,3 +35,4 @@
         })
     })
 </script>
+{% endif %}
