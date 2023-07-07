@@ -11,3 +11,7 @@
     --md-text-font: "LXGW WenKai", "JetBrains Mono";
     --md-code-font: "JetBrains Mono", "Consolas";
 }
+
+.md-footer__inner {
+    display: none !important;
+}
