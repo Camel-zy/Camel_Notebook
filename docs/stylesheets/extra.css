@@ -1,0 +1,13 @@
+@font-face {
+    font-family: "LXGW WenKai";
+    src: "fonts/LXGWWenKai-Regular.ttf";
+}
+@font-face {
+    font-family: "JetBrains Mono";
+    src: "fonts/JetBrainsMono-Regular.ttf";
+}
+
+:root {
+    --md-text-font: "LXGW WenKai", "JetBrains Mono";
+    --md-code-font: "JetBrains Mono", "Consolas";
+}
