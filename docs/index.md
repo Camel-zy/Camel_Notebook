@@ -20,7 +20,8 @@ comments: false
         method: "GET",
     }).then(res => res.json()).then(res => {
         let hitokoto_text = document.getElementById("hitokoto_text");
-        hitokoto_text.innerHTML = "『 " + res.hitokoto + " 』";
+        console.log(res.uuid);
+        hitokoto_text.innerHTML = `<a href="https://hitokoto.cn/?uuid=` + res.uuid + `" style="color: inherit" target="_blank"> 『 ` + res.hitokoto + ` 』 </a>`;
         let hitokoto_author = document.getElementById("hitokoto_author");
         hitokoto_author.innerHTML = "—— " + res.from;
     }).catch(err => {

@@ -270,7 +270,7 @@ This is a paragraph (1) with a annotation
     ```
 === "sequence diagrams"
     ````markdown
-    ``` mermaid
+    ```mermaid
     sequenceDiagram
     autonumber
     Alice->>John: Hello John, how are you?
@@ -284,7 +284,7 @@ This is a paragraph (1) with a annotation
     ```
     ````
 
-    ``` mermaid
+    ```mermaid
     sequenceDiagram
     autonumber
     Alice->>John: Hello John, how are you?
@@ -300,7 +300,7 @@ This is a paragraph (1) with a annotation
 === "state diagrams"
 
     ````markdown
-    ``` mermaid
+    ```mermaid
     stateDiagram-v2
     state fork_state <<fork>>
         [*] --> fork_state
@@ -315,7 +315,7 @@ This is a paragraph (1) with a annotation
     ```
     ````
 
-    ``` mermaid
+    ```mermaid
     stateDiagram-v2
     state fork_state <<fork>>
         [*] --> fork_state
@@ -332,7 +332,7 @@ This is a paragraph (1) with a annotation
 === "class diagrams"
 
     ````markdown
-    ``` mermaid
+    ```mermaid
     classDiagram
     Person <|-- Student
     Person <|-- Professor
@@ -362,7 +362,7 @@ This is a paragraph (1) with a annotation
     ```
     ````
 
-    ``` mermaid
+    ```mermaid
     classDiagram
     Person <|-- Student
     Person <|-- Professor
@@ -394,7 +394,7 @@ This is a paragraph (1) with a annotation
 === "entity-relationship diagrams"
 
     ````markdown
-    ``` mermaid
+    ```mermaid
     erDiagram
     CUSTOMER ||--o{ ORDER : places
     ORDER ||--|{ LINE-ITEM : contains
@@ -406,7 +406,7 @@ This is a paragraph (1) with a annotation
     ```
     ````
 
-    ``` mermaid
+    ```mermaid
     erDiagram
     CUSTOMER ||--o{ ORDER : places
     ORDER ||--|{ LINE-ITEM : contains
@@ -417,7 +417,7 @@ This is a paragraph (1) with a annotation
     CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
     ```
 
-### footnotes
+### Footnotes
 
 ```markdown
 Here's a simple footnote,[^1] and here's a longer one.[^bignote]
