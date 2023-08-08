@@ -105,10 +105,10 @@ admonition支持以下类型：
     !!! quote "Quote"
         This is the content of my quote
 ### Annotations
-基本语法(1)
-{.annotate}
+基本语法
 
-1. :warning: 注意：此功能为mkdocs-material 9.2.0b0版本新增，为当前(1)最新的beta版本，稳定版暂无此功能.
+!!! warning "注意"
+    此功能为mkdocs-material 9.2.0b0版本新增，为当前(1)最新的beta版本，稳定版暂无此功能.
     {.annotate}
 
     1. 2023.07.07
