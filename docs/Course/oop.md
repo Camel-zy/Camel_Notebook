@@ -1,20 +1,19 @@
 ---
-title: C++学习笔记
+title: 面向对象程序设计
 ---
 
-一些oop的题目摘录
+# oop的题目摘录
 
 <!--more-->
 
 ## Template
 
-```
 类模板的参数错误的说法是：	B
 A.可以有多个
 B.可以有0个
 C.不能有基本数据类型
 D.参数不能给初值
-```
+
 
 ### 静态成员
 
@@ -40,8 +39,6 @@ x = 2 count = 1
 x = 2.2 count = 0
 ```
 
-
-
 ### 类模板显式具体化
 
 类模板有两种特化：全特化和偏特化。
@@ -54,7 +51,7 @@ template<>
 class MyClass<int,int>{…};      //全特化
 
 template<class T1>
-class MyClass<T1,int>{…};       //偏特
+class MyClass<T1,int>{…};       //偏特化
 ```
 
 ## STL
@@ -71,7 +68,8 @@ for(int i : a){
 ## string
 
 ```c++
-s.substr(pos, n); // 返回一个string，包含s中从pos开始的n个字符的拷贝（pos的默认值是0，n的默认值是s.size() - pos，即不加参数会默认拷贝整个s）
+s.substr(pos, n); 
+// 返回一个string，包含s中从pos开始的n个字符的拷贝（pos的默认值是0，n的默认值是s.size() - pos，即不加参数会默认拷贝整个s）
 ```
 
 ### pair

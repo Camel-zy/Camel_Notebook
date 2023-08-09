@@ -1,9 +1,13 @@
 ---
 title: CMake的使用基础
 ---
+
+# CMake
+
 做C大程的时候研究了一下cmake的用法
 下面是CMakeLists.txt的基础写法
-<!-- more -->
+
+## 多文件结构
 以C大程所需的多文件结构为例
 
 主目录下的CMakeLists.txt：
@@ -40,12 +44,9 @@ target_link_libraries(Text_Editer
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
-
 ```
 
 子目录下的CMakeLists.txt：
-
-
 
 ```cmake
 include_directories(

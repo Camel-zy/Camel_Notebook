@@ -1,4 +1,31 @@
 site_name: Camel's Notebook
+site_url: https://note.camel-zy.top
+site_author: Camel_zy
+repo_url: https://github.com/Camel-zy/Camel_Notebook
+repo_name: Camel-zy/Camel_Notebook
+edit_uri: edit/master/docs/
+copyright: Copyright &copy; 2023 Camel_zy
+nav:
+  - 首页: 'index.md'
+  - 技术记录:
+    - 'Tech/index.md'
+    - 工具使用:
+      - CMake: 'Tech/Tool/CMake.md'
+      - Conda: 'Tech/Tool/Conda.md'
+      - GPG: 'Tech/Tool/GPG.md'
+      - Hexo: 'Tech/Tool/Hexo.md'
+      - MkDocs: 'Tech/Tool/MkDocs.md'
+      - Sqlmap: 'Tech/Tool/Sqlmap.md'
+    - 编程语言:
+      - Golang: 'Tech/Lang/Golang.md'
+      - Python3: 'Tech/Lang/Python3.md'
+  - 课程笔记:
+    - 'Course/index.md'
+    - C程序设计基础: 'Course/C1.md'
+    - 程序设计专题: 'Course/C2.md'
+    - 面向对象程序设计: 'Course/oop.md'
+    - 计算机系统概论: 'Course/ICS.md'
+
 theme: 
   name: material
   palette: 
@@ -39,7 +66,9 @@ theme:
     - toc.follow
     - navigation.prune
     - navigation.tabs
+    - navigation.sections
     - navigation.expand
+    - navigation.indexes
     - navigation.top
     - search.suggest
     - search.highlight
@@ -51,24 +80,26 @@ theme:
     - content.code.annotate
     - content.tabs.link
   custom_dir: overrides
-extra_css:
-  - stylesheets/extra.css
+
 plugins:
-  # - search:
-#       lang: zh  # 前面设置主题语言之后这边好像默认就是中文了
+  - search:
+      lang: zh  # 前面设置主题语言之后这边好像默认就是中文了
   - git-revision-date-localized:
       enable_creation_date: true
       type: iso_date
   - offline:
       enabled: true
+  - statistics:
+      page_template: 'stylesheets/statistics.html'
+
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/Camel-zy
-repo_url: https://github.com/Camel-zy/Camel_Notebook
-repo_name: Camel-zy/Camel_Notebook
-edit_uri: edit/master/docs/
-copyright: Copyright &copy; 2023 Camel_zy
+  analytics:
+    provider: google
+    property: G-RB70RQRME3
+
 markdown_extensions:
   - admonition
   - pymdownx.details
@@ -83,7 +114,6 @@ markdown_extensions:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
-      anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.tabbed:
@@ -101,13 +131,20 @@ markdown_extensions:
   - def_list
   - pymdownx.tasklist:
       custom_checkbox: true
-  - pymdownx.arithmatex:
-      generic: true
+  # - pymdownx.arithmatex:  # mathjax
+  #     generic: true
   - abbr
   - toc:
       permalink: true
       permalink_title: "永久链接"
+
+extra_css:
+  - stylesheets/extra.css
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
 extra_javascript:
-  - javascripts/mathjax.js
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - javascripts/katex.js 
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
+  # - javascripts/mathjax.js
+  # - https://polyfill.io/v3/polyfill.min.js?features=es6
+  # - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

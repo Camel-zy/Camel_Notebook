@@ -2,13 +2,11 @@
 title: Python3学习笔记
 ---
 
-Python3学习笔记
+# Python3学习笔记
 
-<!-- more -->
+## 配置环境时遇到的乱七八糟的问题
 
-# 配置环境时遇到的乱七八糟的问题
-
-## no module named pip
+### no module named pip
 
 在更新pip出错后再次使用pip显示如上错误
 
@@ -21,15 +19,15 @@ python -m pip install --upgrade pip
 
 [参考](https://blog.csdn.net/wwangfabei1989/article/details/80107147)
 
-## 换清华源
+### 换清华源
 
 ```bash
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-# 基础语法
+## 基础语法
 
-## 零零散散
+### 零零散散
 
 - 标识符对大小写敏感
 
@@ -51,7 +49,7 @@ keyword.kwlist
 - Python 可以在同一行中使用多条语句，语句之间使用分号```;```分割
 
 
-## 类型
+### 类型
 
 1. int 整型 
 
@@ -112,14 +110,14 @@ print(str[3:], "\n")
 print(str * 2)
 print(str + "Cat", "\n")
 
-# 字符串格式化主要有以下三种方法
-# 直接使用%
-print("%d%%" % 7)  # 两个%表示%
+## 字符串格式化主要有以下三种方法
+## 直接使用%
+print("%d%%" % 7)  ## 两个%表示%
 
-# 使用format()
+## 使用format()
 print("{0}+{1}={2}".format(1, 2, 1 + 2))
 
-# 使用f-string
+## 使用f-string
 r = 2
 s = 3.14 * r**2
 print(f"半径为{r}的圆面积为{s:.2f}")
@@ -139,7 +137,7 @@ print(f"半径为{r}的圆面积为{s:.2f}")
     半径为2的圆面积为12.56
 
 
-## 变量
+### 变量
 
 Python 中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建。
 
@@ -166,7 +164,7 @@ print(type(a), type(b), type(c), type(d))
 print(isinstance(a, int), isinstance(b, int), isinstance(c, int))
 ```
 
-## import
+### import
 
 在 python 用```import```或者```from...import```来导入相应的模块。
 
@@ -178,13 +176,13 @@ print(isinstance(a, int), isinstance(b, int), isinstance(c, int))
 
 将某个模块中的全部函数导入，格式为：```from somemodule import *```
 
-## print
+### print
 
 print 默认输出是换行的，如果要实现不换行需要在变量末尾加上```end=""```
 
-# 结构类型
+## 结构类型
 
-## 列表（List）
+### 列表（List）
 
 列表可以完成大多数集合类的数据结构实现。列表中元素的类型可以不相同，它支持数字，字符串，亦支持列表嵌套
 
@@ -224,7 +222,7 @@ print(f"长度：{len(list)}")
     长度：4
 
 
-## 元组（Tuple）
+### 元组（Tuple）
 
 元组和列表类似，但其中的元素不允许修改
 
@@ -234,11 +232,11 @@ print(f"长度：{len(list)}")
 
 
 ```python
-turple = () # 空元组
-turple = (1,) # 单元素元组 如果没有逗号的话就是普通变量定义
+turple = () ## 空元组
+turple = (1,) ## 单元素元组 如果没有逗号的话就是普通变量定义
 ```
 
-## 字典（Dictionary）
+### 字典（Dictionary）
 
 键值对
 
@@ -248,25 +246,25 @@ turple = (1,) # 单元素元组 如果没有逗号的话就是普通变量定义
 
 
 ```python
-# 使用大括号 {} 来创建空字典
+## 使用大括号 {} 来创建空字典
 emptyDict = {}
 
-# 打印字典
+## 打印字典
 print(emptyDict)
 
-# 查看字典的数量
+## 查看字典的数量
 print("Length:", len(emptyDict))
 
-# 查看类型
+## 查看类型
 print(type(emptyDict))
 
 mydict = {"name": "camel", "date": "2022.06"}
 
-# 修改字典
+## 修改字典
 mydict["name"] = "Camel"
 mydict["new"] = 1
 
-# 删除字典
+## 删除字典
 del mydict["new"]
 mydict.clear()
 del mydict
@@ -277,18 +275,18 @@ del mydict
     <class 'dict'>
 
 
-## 集合（Set）
+### 集合（Set）
 
 可以使用大括号```{ }```或者```set()```函数创建集合，注意：创建一个空集合必须用```set()```而不是```{ }```，因为```{ }```是用来创建一个空字典。 
 
 
 ```python
-myset = {"a", "a"}  # 自动去重
+myset = {"a", "a"}  ## 自动去重
 
 print("a" in myset)
 
 bset = set("b")
-myset |= bset # 支持- | & ^运算
+myset |= bset ## 支持- | & ^运算
 
 myset.add("b")
 myset.remove("b")
@@ -305,7 +303,7 @@ len(myset),myset
 
 
 
-# 迭代器和生成器
+## 迭代器和生成器
 
 迭代器对象从集合的第一个元素开始访问，直到所有的元素被访问完结束。迭代器只能往前不会后退。
 
@@ -324,7 +322,7 @@ len(myset),myset
 import sys
 
 
-def fibonacci(n):  # 生成器函数 - 斐波那契
+def fibonacci(n):  ## 生成器函数 - 斐波那契
     a, b, counter = 0, 1, 0
     while True:
         if (counter > n):
@@ -334,7 +332,7 @@ def fibonacci(n):  # 生成器函数 - 斐波那契
         counter += 1
 
 
-f = fibonacci(10)  # f 是一个迭代器，由生成器返回生成
+f = fibonacci(10)  ## f 是一个迭代器，由生成器返回生成
 
 while True:
     try:
@@ -395,9 +393,9 @@ while True:
        1984                                                      value))
        1985 else:
        1986     try:
-       1987         # Exception classes can customise their traceback - we
-       1988         # use this in IPython.parallel for exceptions occurring
-       1989         # in the engines. This should return a list of strings.
+       1987         ## Exception classes can customise their traceback - we
+       1988         ## use this in IPython.parallel for exceptions occurring
+       1989         ## in the engines. This should return a list of strings.
 
 
     File D:\Python\lib\site-packages\IPython\core\ultratb.py:585, in ListTB.get_exception_only(self, etype, value)
@@ -433,7 +431,7 @@ while True:
     File D:\Python\lib\site-packages\IPython\core\ultratb.py:1012, in FormattedTB.structured_traceback(self, etype, value, tb, tb_offset, number_of_lines_of_context)
        1009 mode = self.mode
        1010 if mode in self.verbose_modes:
-       1011     # Verbose modes need a full traceback
+       1011     ## Verbose modes need a full traceback
     -> 1012     return VerboseTB.structured_traceback(
        1013         self, etype, value, tb, tb_offset, number_of_lines_of_context
        1014     )
@@ -451,8 +449,8 @@ while True:
         864     """Return a nice text document describing the traceback."""
     --> 865     formatted_exception = self.format_exception_as_a_whole(etype, evalue, etb, number_of_lines_of_context,
         866                                                            tb_offset)
-        868     colors = self.Colors  # just a shorthand + quicker name lookup
-        869     colorsnormal = colors.Normal  # used a lot
+        868     colors = self.Colors  ## just a shorthand + quicker name lookup
+        869     colorsnormal = colors.Normal  ## used a lot
 
 
     File D:\Python\lib\site-packages\IPython\core\ultratb.py:799, in VerboseTB.format_exception_as_a_whole(self, etype, evalue, etb, number_of_lines_of_context, tb_offset)
@@ -489,9 +487,9 @@ while True:
         544     and optionally an Options object to configure.
         545     """
     --> 546     stack = list(iter_stack(frame_or_tb))
-        548     # Reverse the stack from a frame so that it's in the same order
-        549     # as the order from a traceback, which is the order of a printed
-        550     # traceback when read top to bottom (most recent call last)
+        548     ## Reverse the stack from a frame so that it's in the same order
+        549     ## as the order from a traceback, which is the order of a printed
+        550     ## traceback when read top to bottom (most recent call last)
         551     if is_frame(frame_or_tb):
 
 
@@ -518,9 +516,9 @@ while True:
     AssertionError: 
 
 
-# 含树
+## 含树
 
-## 不定长参数
+### 不定长参数
 
 加了星号```*```的参数会以元组(tuple)的形式导入，存放所有未命名的变量参数。
 
@@ -528,7 +526,7 @@ while True:
 
 
 ```python
-# 可写函数说明
+## 可写函数说明
 def printinfo(arg1, *vartuple):
     "打印任何传入的参数"
     print("输出: ")
@@ -538,7 +536,7 @@ def printinfo(arg1, *vartuple):
     return
 
 
-# 调用printinfo 函数
+## 调用printinfo 函数
 printinfo(10)
 printinfo(70, 60, 50)
 ```
@@ -553,7 +551,7 @@ printinfo(70, 60, 50)
 
 
 ```python
-# 可写函数说明
+## 可写函数说明
 def printinfo(arg1, **vardict):
     "打印任何传入的参数"
     print("输出: ")
@@ -561,7 +559,7 @@ def printinfo(arg1, **vardict):
     print(vardict)
 
 
-# 调用printinfo 函数
+## 调用printinfo 函数
 printinfo(1, a=2, b=3)
 ```
 
@@ -570,7 +568,7 @@ printinfo(1, a=2, b=3)
     {'a': 2, 'b': 3}
 
 
-## 强制位置参数
+### 强制位置参数
 
 Python3.8 新增了一个函数形参语法```/```用来指明函数形参必须使用指定位置参数，不能使用关键字参数的形式。
 
@@ -582,7 +580,7 @@ def f(a, b, /, c, d, *, e, f):
     print(a, b, c, d, e, f)
 ```
 
-# 遍历技巧
+## 遍历技巧
 
 在字典中遍历时，关键字和对应的值可以使用 items() 方法同时解读出来
 
@@ -590,7 +588,7 @@ def f(a, b, /, c, d, *, e, f):
 
 同时遍历两个或更多的序列，可以使用 zip() 组合
 
-# 奇奇怪怪
+## 奇奇怪怪
 
 - else if 等价于 elif
 
@@ -599,27 +597,27 @@ def f(a, b, /, c, d, *, e, f):
 - pass语句用于占位
 
 
-# 虚拟环境
+## 虚拟环境
 
-## venv模块
+### venv模块
 
-### 创建虚拟环境
+#### 创建虚拟环境
 
 ```bash
 python -m venv myvenv
 ```
 
-### 激活虚拟环境
+#### 激活虚拟环境
 
 只需运行.\myvenv\Script\active.bat脚本即可
 
 命令行下运行.\myvenv\Script\Active.ps1 进入虚拟环境后命令行前会有提示
 
-### 退出虚拟环境
+#### 退出虚拟环境
 
 只需运行.\myvenv\Script\deactive.bat脚本即可
 
-# 参考资料
+## 参考资料
 
 更多内容自己看吧 懒得抄了
 

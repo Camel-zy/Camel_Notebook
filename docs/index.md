@@ -1,6 +1,7 @@
 ---
 title: 首页
 comments: false
+statistics: True
 ---
 # 首页
 
@@ -28,3 +29,8 @@ comments: false
         console.log(err);
     });
 </script>
+
+<br/>
+
+??? info "站点统计"
+    本站共有 {{ pages }} 个页面，{{ words }} 个字，{{ codes }} 行代码。

@@ -11,7 +11,7 @@ pip install mkdocs-material
 ```
 
 ## 基本用法
-具体用法可以参阅[mkdocs-material官方文档](https://squidfunk.github.io/mkdocs-material/getting-started/)，此处仅作简单摘要
+具体用法可以参阅[MkDocs User Guide](https://www.mkdocs.org/user-guide) 和 [mkdocs-material官方文档](https://squidfunk.github.io/mkdocs-material/getting-started/)，此处仅作简单摘要
 
 创建新项目
 ```shell
@@ -108,10 +108,9 @@ admonition支持以下类型：
 基本语法
 
 !!! warning "注意"
-    此功能为mkdocs-material 9.2.0b0版本新增，为当前(1)最新的beta版本，稳定版暂无此功能.
-    {.annotate}
+    此功能为mkdocs-material 9.2.0b0版本新增，为 当前 最新的beta版本，稳定版暂无此功能.
 
-    1. 2023.07.07
+    *[当前]: 2023.07.07
 
 ```markdown
 This is a paragraph (1) with a annotation
@@ -535,6 +534,20 @@ Markdown标准语法中的list略去不表
 ```
 
 [Hover me](https://example.com "I'm a tooltip!")
+
+#### Abbreviation
+
+```markdown
+The HTML specification is maintained by the W3C.
+
+*[HTML]: Hyper Text Markup Language
+*[W3C]: World Wide Web Consortium
+```
+
+The HTML specification is maintained by the W3C.
+
+*[HTML]: Hyper Text Markup Language
+*[W3C]: World Wide Web Consortium
 
 
 其它更多用法参见[官方文档](https://squidfunk.github.io/mkdocs-material/reference/tooltips/)

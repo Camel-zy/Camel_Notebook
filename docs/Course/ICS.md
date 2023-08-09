@@ -1,5 +1,6 @@
 ---
 title: 计算机系统概论
+status: new
 ---
 
 # 计算机系统概论
@@ -60,7 +61,7 @@ The number of opcodes, data types, and addressing modes are specified by the ISA
 | :--: | :------: | :------: |
 | 1    | 8        | 23       |
 
-$x=(-1)^s\times(1+f)\times2^{e-127},1\le e\le 254$
+$x=(-1)^s \times (1+f) \times 2^{e-127},1 \le e \le 254$
 
 - Exponent: biased by 127 采用移码而非补码存储是为了方便比较大小
 
@@ -286,11 +287,10 @@ CMOS: Complementary MOS
 
 #### Global Bus
 
-tri-state device(1): it allows the computer’s control logic to enable exactly one supplier to
+tri-state device : it allows the computer’s control logic to enable exactly one supplier to
 provide information to the bus at any one time.
-{.annotate}
 
-1. 三态门
+*[tri-state device]: 三态门
 
 ## Chapter 7 Assembly Language
 

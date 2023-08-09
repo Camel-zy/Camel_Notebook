@@ -2,6 +2,8 @@
 title: Sqlmap使用笔记
 ---
 
+# Sqlmap
+
 记录一下sqlmap的（非常基础的）知识啥的
 
 <!-- more -->
@@ -10,7 +12,7 @@ title: Sqlmap使用笔记
 
 
 
-# 一、sqlmap简介
+## 一、sqlmap简介
 
 > SQLMap 是一个开源的渗透测试工具，可以用来进行自动化检测，利用 SQL  注入漏洞，获取数据库服务器的权限。它具有功能强大的检测引擎，针对各种不同类型数据库的渗透测试的功能选项，包括获取数据库中存储的数据，访问操作系统文件甚至可以通过外带数据连接的方式执行操作系统命令。
 
@@ -36,9 +38,9 @@ sqlmap支持的五种不同的注入方式：
 
 
 
-# 二、使用方式
+## 二、使用方式
 
-## 指定目标
+### 指定目标
 
 ```shell
 $ python3 sqlmap.py -u "url"	#指定目标网址 url的最后应当有参数 例如questionid=0
@@ -48,31 +50,27 @@ $ python3 sqlmap.py -u "url"	#指定目标网址 url的最后应当有参数 例
 
 也可以使用 --level 指定测试等级
 
-## 列出库
+### 列出库
 
 ```shell
 $ python3 sqlmap.py -u "url" --dbs
 ```
 
-## 列出表
+### 列出表
 
 ```shell
 $ python3 sqlmap.py -u "url" -D 库名 --tables
 ```
 
-# 列出字段
+## 列出字段
 
 ```shell
 $ python3 sqlmap.py -u "url" -D 库名 -T 表名 --columns
 ```
 
+咕咕咕
 
-
-后面有空再写 咕咕咕
-
-
-
-# 参考资料
+## 参考资料
 
 [SQLMap 从入门到入狱详细指南](https://gitbook.cn/books/5ba8393639ea516190a9b8f8/index.html)
 

@@ -2,11 +2,13 @@
 title: Hexo博客搭建
 ---
 
+# Hexo
+
 使用hexo搭建博客时发现乱七八糟的指令有点多，所以来记录一下下。 
 
 <!--more-->
 
-# 相关软件安装 
+## 相关软件安装 
 添加nodejs源 
 ```shell
 sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
@@ -20,7 +22,7 @@ sudo apt install nodejs
 sudo npm install -g hexo
 ```
 
-# 本地创建博客 
+## 本地创建博客 
 初始化创建 
 ```shell
 hexo init
@@ -39,7 +41,7 @@ hexo generate
 hexo server -p 80
 ```
 
-# 主题配置
+## 主题配置
 
 使用命令安装之后，在博客目录下创建 _config.fluid.yml，将主题的[_config.yml](https://github.com/fluid-dev/hexo-theme-fluid/blob/master/_config.yml)内容复制过去
 
@@ -49,7 +51,7 @@ npm install --save hexo-theme-fluid
 
 后续根据文件注释和[官方文档](https://hexo.fluid-dev.com/docs/)修改配置即可
 
-# 一键部署
+## 一键部署
 
 在_config.yml补充deploy部分
 ```yaml
@@ -68,7 +70,7 @@ npm install hexo-deployer-git --save
 hexo deploy
 ```
 
-# 使用github actions自动部署
+## 使用github actions自动部署
 
 新建.github/workflows/pages.yml文件
 
@@ -113,7 +115,7 @@ jobs:
           publish_dir: ./public
 ```
 
-# hexo常用命令整理
+## hexo常用命令整理
 ```shell
 hexo new "postname" #新建文章
 hexo new page "pagename"	#新建页面
@@ -122,7 +124,7 @@ hexo g #生成静态网页 等价于hexo generate
 hexo s #本地部署 等价于hexo server 
 ```
 
-# 撰写博客
+## 撰写博客
 摘要和正文使用`<!--more-->`隔开 
 标签使用如下形式
 ```yaml
@@ -132,7 +134,7 @@ tags:
     - blog
 ```
 
-# 插入图片
+## 插入图片
 
 打开根目录下_config.yml
 
@@ -156,7 +158,7 @@ tags:
 
 但是`hexo-asset-image`插件和`hexo-abbrlink`插件不兼容，可以使用`hexo-renderer-markdown-it`来渲染
 
-# 生成博客时仓库内包含其他文件(如Readme.md等)
+## 生成博客时仓库内包含其他文件(如Readme.md等)
 
 我希望hexo在生成时将readme.md workflows之类的文件加上一起部署到仓库，所以就有了这个需求。
 
@@ -188,9 +190,9 @@ skip_render:
 
 _config.yml文件配置详细内容可以看[官网](https://hexo.io/docs/configuration)
 
-# Hexo插件
+## Hexo插件
 
-## hexo-abbrlink
+### hexo-abbrlink
 
 用于生成文章的简短链接
 
@@ -198,7 +200,7 @@ _config.yml文件配置详细内容可以看[官网](https://hexo.io/docs/config
 
 根据[仓库说明](https://github.com/rozbo/hexo-abbrlink)操作即可
 
-## hexo-renderer-markdown-it
+### hexo-renderer-markdown-it
 
 更快更好的Markdown解析器
 
@@ -211,7 +213,7 @@ npm i hexo-renderer-markdown-it --save
 
 根据[仓库说明](https://github.com/hexojs/hexo-renderer-markdown-it/)配置即可
 
-## hexo-all-minifier
+### hexo-all-minifier
 
 压缩Hexo生成的文件
 
@@ -221,7 +223,7 @@ npm i hexo-renderer-markdown-it --save
 
 根据[仓库说明](https://github.com/chenzhutian/hexo-all-minifier)配置即可
 
-# 参考链接
+## 参考链接
 [搭建博客](https://kaiter-plus.gitee.io/2020/03/07/How_To_Freely_Build_Blog/) 
 
 [fluid主题](https://github.com/fluid-dev/hexo-theme-fluid) 
