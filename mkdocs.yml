@@ -17,6 +17,7 @@ nav:
       - MkDocs: 'Tech/Tool/MkDocs.md'
       - Sqlmap: 'Tech/Tool/Sqlmap.md'
     - 编程语言:
+      - C++: 'Tech/Lang/C++.md'
       - Golang: 'Tech/Lang/Golang.md'
       - Python3: 'Tech/Lang/Python3.md'
   - 课程笔记:
@@ -43,6 +44,7 @@ theme:
         icon: material/brightness-4
         name: 切换至浅色模式
   language: zh
+  font: false
   icon:
     logo: material/book-open-variant
     repo: fontawesome/brands/github

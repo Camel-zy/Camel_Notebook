@@ -1,6 +1,6 @@
 @font-face {
-    font-family: "LXGW WenKai";
-    src: "fonts/LXGWWenKai-Regular.ttf";
+    font-family: "LXGW WenKai Screen";
+    src: "fonts/LXGWWenKaiScreen.ttf";
 }
 
 @font-face {
@@ -9,10 +9,61 @@
 }
 
 :root {
-    --md-text-font: "LXGW WenKai", "JetBrains Mono";
+    --md-text-font: "JetBrains Mono", "LXGW WenKai Screen";
     --md-code-font: "JetBrains Mono", "Consolas";
 }
 
 .md-footer__inner {
     display: none !important;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+    font-weight: 600;
+}
+
+.md-typeset {
+    font-size: .75rem;
+}
+
+/* counter */
+.md-typeset h1 {
+    counter-reset: h2;
+}
+
+.md-typeset h2 {
+    counter-reset: h3;
+}
+
+.md-typeset h3 {
+    counter-reset: h4;
+}
+
+.md-typeset h4 {
+    counter-reset: h5;
+}
+
+.md-typeset h2:before {
+    counter-increment: h2;
+    content: counter(h2) " ";
+}
+
+#__comments::before {   /* comments */
+    content: "";
+}
+
+.md-typeset h3:before {
+    counter-increment: h3;
+    content: counter(h2) "." counter(h3) " ";
+}
+
+.md-typeset h4:before {
+    counter-increment: h4;
+    content: counter(h2) "." counter(h3) "." counter(h4) " ";
+}
+
+.md-typeset h5:before {
+    counter-increment: h5;
+    content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
 }
