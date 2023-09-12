@@ -1,6 +1,7 @@
 ---
 status: new
 ---
+# C++
 
 ??? abstract "TODO-List"
 
@@ -10,15 +11,97 @@ status: new
     - [x] 智能指针
     - [ ] 泛型
     - [ ] 移动语义
-    - [ ] Lambda表达式
+    - [ ] 匿名函数
     - [x] `constexpr`
     - [x] 引用限定符
     - [ ] 并发
     - [x] 编程习惯
 
-# C++
-
 ## STL
+
+### 比较函数
+
+`greater<>`实现`x > y`，`less<>`实现`x < y`
+
+注意`sort`和`priority_queue`的比较函数的区别。
+
+```cpp
+sort(v.begin(), v.end(), greater<int>());    // 降序排列
+priority_queue<int, vector<int>, greater<int>> pq; // 小根堆
+```
+
+### Algorithm
+
+#### `upper_bound`和`lower_bound`
+
+二分查找，默认比较函数为`<`，要求数组排序方式和比较函数一致。
+
+`upper_bound(first, last, value(, comp))`
+
+!!! note "自定义比较函数"
+
+    ```cpp
+    // for upper_bound
+    bool comp(const int &value, const int &element) { // 第一个参数始终为value
+        return a > b;
+    }
+    // for lower_bound
+    bool comp(const int &element, const int &value) { // 第二个参数始终为value
+        return a > b;
+    }
+    ```
+
+`upper_bound`返回第一个迭代器使得`value < *it`或`comp(value, *it) == true`或`*it == end`
+
+`lower_bound`返回第一个迭代器使得`value <= *it `或`comp(value, *it) == false`或`*it == end`
+
+```cpp
+vector<int> v{1, 2, 3, 4, 5, 6, 7, 8, 9};   // 升序
+int i = upper_bound(v.begin(), v.end(), 5) - v.begin(); // i = 5 第一个大于5的数的下标
+int j = lower_bound(v.begin(), v.end(), 5) - v.begin(); // j = 4 第一个大于等于5的数的下标
+// 自定义比较函数
+vector<int> v2{9, 8, 7, 6, 5, 4, 3, 2, 1};   // 降序
+int i2 = upper_bound(v2.begin(), v2.end(), 5, greater<int>()) - v2.begin(); // i2 = 4 第一个小于5的数的下标
+int j2 = lower_bound(v2.begin(), v2.end(), 5, greater<int>()) - v2.begin(); // j2 = 5 第一个小于等于5的数的下标
+```
+
+### `string`
+
+#### `string`转`char*`
+
+`string.c_str()`返回`const char*`，可用`const_cast<char*>(string.c_str())`转换为`char*`，或利用`strcpy`/`std::copy`等函数复制到`char*`数组中。
+
+#### 数字字符串
+
+`atoi`可将`const char*`转换为`int`，`stoi`可将`string`转换为`int`。其中`atoi`不做边界检查，`stoi`会抛出异常。
+
+#### 字符串分割
+
+c++没有提供`split`之类的函数，可以使用`stringstream`或`strtok`实现。
+
+```cpp
+// stringstream
+vector<string> split(const string &s, char delim) {
+    vector<string> elems;
+    stringstream ss(s);
+    string item;
+    while (getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    return elems;
+}
+
+// strtok
+vector<string> split(const string &s, char delim) {
+    vector<string> elems;
+    char *p = strtok(const_cast<char*>(s.c_str()), delim);
+    while (p) {
+        elems.push_back(p);
+        p = strtok(nullptr, delim);
+    }
+    return elems;
+}
+```
 
 ## 智能指针
 
@@ -44,7 +127,19 @@ status: new
 
 ## 移动语义
 
-## Lambda表达式
+## 匿名函数
+
+```cpp
+[capture] (parameters) mutable exception attribute -> return_type { body }
+```
+```cpp
+[]        // 沒有定义任何变量，但必须列出空的方括号。在Lambda表达式中尝试使用任何外部变量都会导致编译错误。
+[x, &y]   // x是按值传入，y是按引用传入。
+[&]       // 任何被使用到的外部变量都按引用传入。
+[=]       // 任何被使用到的外部变量都按值传入。
+[&, x]    // x按值传入。其它变量按引用传入。
+[=, &z]   // z按引用传入。其它变量按值传入。
+```
 
 ## `constexpr`
 

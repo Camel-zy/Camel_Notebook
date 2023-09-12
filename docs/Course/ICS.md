@@ -400,10 +400,9 @@ USER_PSR 默认存放于x2FFF, OS_PSR 默认存放于xFFFC
 
 #### HALT
 
-将MCR(1)(xFFFE)的第15位设置为0，停止时钟
-{.annotate}
+将 MCR (xFFFE)的第15位设置为0，停止时钟
 
-1. Master Control Register
+*[MCR]: Master Control Register
 
 程序在执行```STI R0, MCR```（停止时钟）后停止运行，后续指令不再执行。且此时无法通过程序自身重启时钟，只能通过外部硬件支持。
 
@@ -417,10 +416,9 @@ USER_PSR 默认存放于x2FFF, OS_PSR 默认存放于xFFFC
 
     PL0 to PL7
 
-- INTV(1)
-{.annotate}
+- INTV
 
-    1. Interrupt Vector Register
+*[INTV]: Interrupt Vector Register
 
     x0100-x01FF，存储中断服务程序入口地址
 
