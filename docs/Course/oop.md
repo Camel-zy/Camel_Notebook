@@ -1,5 +1,6 @@
 ---
-title: 面向对象程序设计
+title: Object Oriented Programming
+subtitle: 面向对象程序设计
 ---
 
 # oop的题目摘录

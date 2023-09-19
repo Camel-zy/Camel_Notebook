@@ -24,8 +24,9 @@ nav:
     - 'Course/index.md'
     - C程序设计基础: 'Course/C1.md'
     - 程序设计专题: 'Course/C2.md'
-    - 面向对象程序设计: 'Course/oop.md'
-    - 计算机系统概论: 'Course/ICS.md'
+    - 【OOP】面向对象程序设计: 'Course/OOP.md'
+    - 【ICS】计算机系统概论: 'Course/ICS.md'
+    - 【PPL】编程语言原理: 'Course/PPL.md'
 
 theme: 
   name: material

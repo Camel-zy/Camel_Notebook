@@ -1,9 +1,9 @@
 ---
-title: 计算机系统概论
-status: new
+title: Introduction to Computing Systems
+subtitle: 计算机系统概论
 ---
 
-# 计算机系统概论
+# Introduction to Computing Systems
 
 ## Chapter 1 Welcome Aboard
 
@@ -59,7 +59,7 @@ The number of opcodes, data types, and addressing modes are specified by the ISA
 
 | Sign | Exponent | Fraction |
 | :--: | :------: | :------: |
-| 1    | 8        | 23       |
+|  1   |    8     |    23    |
 
 $x=(-1)^s \times (1+f) \times 2^{e-127},1 \le e \le 254$
 
@@ -69,11 +69,11 @@ $x=(-1)^s \times (1+f) \times 2^{e-127},1 \le e \le 254$
 
 #### Special values
 
-| Type | Exponent | Fraction |
-| :--: | :------: | :------: |
-| $\pm 0$  | 0    | 0        |
-| Inf  | $2^e-1$  | 0        |
-| NaN  | $2^e-1$  | non-zero |
+|  Type   | Exponent | Fraction |
+| :-----: | :------: | :------: |
+| $\pm 0$ |    0     |    0     |
+|   Inf   | $2^e-1$  |    0     |
+|   NaN   | $2^e-1$  | non-zero |
 
 #### Subnormal numbers
 
@@ -104,6 +104,11 @@ CMOS: Complementary MOS
 <figcaption>N-type Mos transistor</figcaption>
 </figure>
 </div>
+
+| Gate   | Supplied | Connection |
+| ------ | -------- | ---------- |
+| P-type | 0        | 1          |
+| N-type | 0        | 0          |
 
 ### Logic Gates
 
@@ -152,13 +157,36 @@ CMOS: Complementary MOS
 
 === "Mux"
     <figure markdown>
-        <embed src="计算机系统概论/Mux.svg" width="300" type="image/svg+xml"/>
+    <embed src="计算机系统概论/Mux.svg" width="300" type="image/svg+xml"/>
     </figure>
+
+    | S   | OUT |
+    | --- | --- |
+    | 00  | A   |
+    | 01  | B   |
+    | 10  | C   |
+    | 11  | D   |
 
 === "Full Adder"
     <figure markdown>
     ![FullAdder](计算机系统概论/FullAdder.png){ width="300" loading="lazy" }
     </figure>
+
+    本质就是枚举
+
+    不考虑进位的话就是一个半加器
+
+    | $A_i$ | $B_i$ | $C_i$ | $S_i$ | $C_{i+1}$ |
+    | ----- | ----- | ----- | ----- | --------- |
+    | 0     | 0     | 0     | 0     | 0         |
+    | 0     | 0     | 1     | 1     | 0         |
+    | 0     | 1     | 0     | 1     | 0         |
+    | 0     | 1     | 1     | 0     | 1         |
+    | 1     | 0     | 0     | 1     | 0         |
+    | 1     | 0     | 1     | 0     | 1         |
+    | 1     | 1     | 0     | 0     | 1         |
+    | 1     | 1     | 1     | 1     | 1         |
+
 === "PLA(Programmable Logic Array)"
     输入为n位时，PLA需要$2^n$个与门，或门数量取决于真值表的输出数目
     <figure markdown>
@@ -166,6 +194,8 @@ CMOS: Complementary MOS
     </figure>
 
 #### Logical Completeness
+
+We can build a circuit to carry out the specification of any truth table we wish without using any other kind of gate.
 
 - {AND, OR, NOT} is logically complete.
 
@@ -179,12 +209,12 @@ CMOS: Complementary MOS
 ![RSLatch](计算机系统概论/RSLatch.png){ width="300" loading="lazy" }
 </figure>
 
-| State | S    | R    |
-| :---: | :--: | :--: |
-| Quiescent | 1    | 1    |
-| Set   | 1    | 0    |
-| Reset | 0    | 1    |
-| Invalid | 0    | 0    |
+|   State   |  S  |  R  |
+| :-------: | :-: | :-: |
+| Quiescent |  1  |  1  |
+|    Set    |  1  |  0  |
+|   Reset   |  0  |  1  |
+|  Invalid  |  0  |  0  |
 
 #### The Gated D Latch
 
