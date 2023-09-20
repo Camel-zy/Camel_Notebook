@@ -16,7 +16,7 @@ subtitle: 计算机系统概论
 ### Levels of Transformation
 
 <figure markdown>
-![Levels of transformation](计算机系统概论/Levelsoftransformation.png){ width="300" align="center" loading="lazy" }
+![Levels of transformation](ICS/Levelsoftransformation.png){ width="300" align="center" loading="lazy" }
 <figcaption>Levels of transformation</figcaption>
 </figure>
 
@@ -50,6 +50,9 @@ The number of opcodes, data types, and addressing modes are specified by the ISA
 - 补码相加时，需要符号扩展
 
 - （加法的）溢出仅发生于同号相加产生异号的情况
+
+??? example "-44补码？"
+    D4
 
 ### Floating Point Data Type
 
@@ -95,12 +98,12 @@ CMOS: Complementary MOS
 
 <div style="display: flex; justify-content: space-around; align-items: center;">
 <figure markdown>
-<img alt="P-typeMos" loading="lazy" src="计算机系统概论/P-typeMos.png" width="100">
+<img alt="P-typeMos" loading="lazy" src="ICS/P-typeMos.png" width="100">
 <figcaption>P-type Mos transistor</figcaption>
 </figure>
 
 <figure markdown>
-<img alt="N-typeMos" loading="lazy" src="计算机系统概论/N-typeMos.png" width="100">
+<img alt="N-typeMos" loading="lazy" src="ICS/N-typeMos.png" width="100">
 <figcaption>N-type Mos transistor</figcaption>
 </figure>
 </div>
@@ -114,50 +117,50 @@ CMOS: Complementary MOS
 
 === "NOT"
     <figure markdown>
-    ![NotGate](计算机系统概论/NotGate.png){ width="200" loading="lazy" }
+    ![NotGate](ICS/NotGate.png){ width="200" loading="lazy" }
     </figure>
 
 === "OR"
     <div style="display: flex; justify-content: space-around; align-items: center;">
     <figure markdown>
-    <img alt="NorGate" loading="lazy" src="计算机系统概论/NorGate.png" width="300">
+    <img alt="NorGate" loading="lazy" src="ICS/NorGate.png" width="300">
     <figcaption>Nor Gate</figcaption>
     </figure>
     <figure markdown>
-    <img alt="OrGate" loading="lazy" src="计算机系统概论/OrGate.png" width="300">
+    <img alt="OrGate" loading="lazy" src="ICS/OrGate.png" width="300">
     <figcaption>Or Gate</figcaption>
     </figure>
     </div>
 
 === "AND"
     <figure markdown>
-    ![NandGate](计算机系统概论/NandGate.png){ width="300" loading="lazy" }
+    ![NandGate](ICS/NandGate.png){ width="300" loading="lazy" }
     </figure>
 
 !!! warning "Attention"
     P-type can't connect to ground, while N-type can't connect to VDD.<br/>
     否则会产生传输电压，约0.5V
     <figure markdown>
-    <img alt="WrongOrGate" loading="lazy" src="计算机系统概论/WrongOrGate.png" width="400">
+    <img alt="WrongOrGate" loading="lazy" src="ICS/WrongOrGate.png" width="400">
     <figcaption>Wrong Or Gate</figcaption>
     </figure>
 
 #### Basic Logic Gates Symbols
 
 <figure markdown>
-![BasicLogicGatesSymbols](计算机系统概论/BasicLogicGatesSymbols.png){ width="350" loading="lazy" }
+![BasicLogicGatesSymbols](ICS/BasicLogicGatesSymbols.png){ width="350" loading="lazy" }
 </figure>
 
 ### Combinational Logic Circuits
 
 === "Decoder"
     <figure markdown>
-        <embed src="计算机系统概论/Decoder.svg" width="300" type="image/svg+xml"/>
+        <embed src="ICS/Decoder.svg" width="300" type="image/svg+xml"/>
     </figure>
 
 === "Mux"
     <figure markdown>
-    <embed src="计算机系统概论/Mux.svg" width="300" type="image/svg+xml"/>
+    <embed src="ICS/Mux.svg" width="300" type="image/svg+xml"/>
     </figure>
 
     | S   | OUT |
@@ -169,7 +172,7 @@ CMOS: Complementary MOS
 
 === "Full Adder"
     <figure markdown>
-    ![FullAdder](计算机系统概论/FullAdder.png){ width="300" loading="lazy" }
+    ![FullAdder](ICS/FullAdder.png){ width="300" loading="lazy" }
     </figure>
 
     本质就是枚举
@@ -190,7 +193,7 @@ CMOS: Complementary MOS
 === "PLA(Programmable Logic Array)"
     输入为n位时，PLA需要$2^n$个与门，或门数量取决于真值表的输出数目
     <figure markdown>
-    ![PLA](计算机系统概论/PLA.png){ width="300" loading="lazy" }
+    ![PLA](ICS/PLA.png){ width="300" loading="lazy" }
     </figure>
 
 #### Logical Completeness
@@ -206,7 +209,7 @@ We can build a circuit to carry out the specification of any truth table we wish
 #### The R-S Latch
 
 <figure markdown>
-![RSLatch](计算机系统概论/RSLatch.png){ width="300" loading="lazy" }
+![RSLatch](ICS/RSLatch.png){ width="300" loading="lazy" }
 </figure>
 
 |   State   |  S  |  R  |
@@ -219,7 +222,7 @@ We can build a circuit to carry out the specification of any truth table we wish
 #### The Gated D Latch
 
 <figure markdown>
-![GatedDLatch](计算机系统概论/GatedDLatch.png){ width="300" loading="lazy" }
+![GatedDLatch](ICS/GatedDLatch.png){ width="600" loading="lazy" }
 </figure>
 
 > WE: Write Enable
@@ -228,25 +231,42 @@ We can build a circuit to carry out the specification of any truth table we wish
 
 > Address Space: the number of addressable locations    e.g. 32-bit address space: $2^{32}$
 
-> Addressability: the number of bits stored in each locations    e.g. 32-bit addressability: 32 bits
+> Addressability: the number of bits stored in each locations   Most memories are byte-addressable.
+
+??? example
+    A 2-gigabyte memory (written 2GB) is a memory consisting of 2,147,483,648 memory locations, each containing one byte (i.e., eight bits) of storage.
+
+???+ example "A $2^2$-by-3-Bit Memory"
+    <figure markdown>
+    ![Memory](ICS/2^2-by-3-bit-memory.png){ width="600" loading="lazy" }
+    </figure>
+    4bit的寻址空间，每个空间可以存储3bit的数据
 
 !!! warning "Attention"
     Address Space 是最大可寻址空间
     <figure markdown>
-    ![Memory](计算机系统概论/Memory.png){ width="500" loading="lazy" }
+    ![Memory](ICS/Memory.png){ width="600" loading="lazy" }
     </figure>
+    虽然图上只画了3bit的寻址空间，但最大可寻址空间为$2^2=4$bits
+
     Address Space = 4, Addressability = 3
 
 ### Sequential Logic Circuits
 
 > 组合逻辑电路只存储当前状态，而时序逻辑电路还存储了历史状态
 
+<figure markdown>
+![](ICS/SequentialLogicCircuits.png){ width="400" loading="lazy" }
+</figure>
+
+用于实现有限状态机
+
 #### master-slave flip-flop
 
 <figure markdown>
-![MasterSlaveFlipFlop](计算机系统概论/MasterSlaveFlipFlop.png){ width="600" loading="lazy" }
+![MasterSlaveFlipFlop](ICS/MasterSlaveFlipFlop.png){ width="600" loading="lazy" }
 <br/>
-![TimingDiagramFlipFlop](计算机系统概论/TimingDiagramFlipFlop.png)
+![TimingDiagramFlipFlop](ICS/TimingDiagramFlipFlop.png)
 <figcaption>Timing Diagram</figcaption>
 </figure>
 
@@ -279,8 +299,8 @@ We can build a circuit to carry out the specification of any truth table we wish
 ### The State Machine
 
 <figure markdown>
-![](计算机系统概论/statemachine.png){ width="700" loading="lazy" }
-![](计算机系统概论/intstatemachine.png){ width="700" loading="lazy" }
+![](ICS/statemachine.png){ width="700" loading="lazy" }
+![](ICS/intstatemachine.png){ width="700" loading="lazy" }
 </figure>
 
 ## Chapter 5 The LC-3
@@ -310,7 +330,7 @@ We can build a circuit to carry out the specification of any truth table we wish
 加入中断后的data path不做要求
 
 <figure markdown>
-![](计算机系统概论/datapath.png){ width="700" loading="lazy" }
+![](ICS/datapath.png){ width="700" loading="lazy" }
 </figure>
 
 典型考题：设计新指令需要对数据通路做哪些修改 
@@ -348,14 +368,14 @@ provide information to the bus at any one time.
 1. Implemented in hardware
 
     <figure markdown>
-    ![](计算机系统概论/stackhardware.png){ width="700" loading="lazy" }
+    ![](ICS/stackhardware.png){ width="700" loading="lazy" }
     <figcaption>Data entries move</figcaption>
     </figure>
 
 2. Implemented in memory
 
     <figure markdown>
-    ![](计算机系统概论/stackmemory.png){ width="700" loading="lazy" }
+    ![](ICS/stackmemory.png){ width="700" loading="lazy" }
     <figcaption>Data entries do not move</figcaption>
     </figure>
 
@@ -370,14 +390,14 @@ provide information to the bus at any one time.
 #### PSR
 > Program Status Register
 <figure markdown>
-![PSR](计算机系统概论/PSR.png){ width="500" loading="lazy" }
+![PSR](ICS/PSR.png){ width="500" loading="lazy" }
 </figure>
 
 #### Organization of Memorys
 USER_PSR 默认存放于x2FFF, OS_PSR 默认存放于xFFFC
 
 <figure markdown>
-![](计算机系统概论/OrganizationofMemorys.png){ width="500" loading="lazy" }
+![](ICS/OrganizationofMemorys.png){ width="500" loading="lazy" }
 </figure>
 
 ### Input/Output
