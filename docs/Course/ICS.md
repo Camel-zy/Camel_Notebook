@@ -51,8 +51,11 @@ The number of opcodes, data types, and addressing modes are specified by the ISA
 
 - （加法的）溢出仅发生于同号相加产生异号的情况
 
-??? example "-44补码？"
-    D4
+???+ question
+    -44补码？
+
+??? success "answer"
+    0xD4
 
 ### Floating Point Data Type
 
@@ -85,6 +88,19 @@ $e=0,f\ne0$
 ???+ example "e.g."
     - largest subnormal number: $0.11111111111111111111111\times2^{-126}$
     - smallest normalized number: $0.00000000000000000000001\times2^{-126}$
+
+???+ question
+    浮点数转十进制
+
+    - 0 10000000 00000000000000000000000
+    - 1 10000011 00010000000000000000000
+    - 0 11111111 00000000000000000000000
+  
+??? success "answer"
+      - 2
+      - -17
+      - $+\infty$
+
 
 ## Chapter 3 Digital Logic Structures
 
@@ -196,6 +212,11 @@ CMOS: Complementary MOS
     ![PLA](ICS/PLA.png){ width="300" loading="lazy" }
     </figure>
 
+???+ question
+    How many output lines will a 16-input multiplexer have? How many select lines will this multiplexer have?
+
+??? success "answer"
+    1, 4
 #### Logical Completeness
 
 We can build a circuit to carry out the specification of any truth table we wish without using any other kind of gate.
@@ -203,6 +224,19 @@ We can build a circuit to carry out the specification of any truth table we wish
 - {AND, OR, NOT} is logically complete.
 
 - {NAND} is logically complete.
+
+???+ question "3.30"
+    <figure markdown>
+    ![Fig-3.30](ICS/3.30.png){ width="600" loading="lazy" }
+    <figcaption>Diagram for Exercise 3.30.</figcaption>
+    </figure>
+    Construct a logic diagram that implements an adder/subtractor. That is, the logic circuit will compute A + B or A − B depending on the value of X.
+
+??? success "answer"
+    两处修改：C = NOT(B), Carry in = X  从而利用X的1实现了C = -B
+    <figure markdown>
+    ![Fig-3.30ans](ICS/3.30ans.png){ width="600" loading="lazy" }
+    </figure>
 
 ### Basic Storage Elements
 
@@ -227,13 +261,15 @@ We can build a circuit to carry out the specification of any truth table we wish
 
 > WE: Write Enable
 
+WE为1时，输出和输入一致；WE为0时，输出保持
+
 ### Memory
 
 > Address Space: the number of addressable locations    e.g. 32-bit address space: $2^{32}$
 
 > Addressability: the number of bits stored in each locations   Most memories are byte-addressable.
 
-??? example
+???+ example
     A 2-gigabyte memory (written 2GB) is a memory consisting of 2,147,483,648 memory locations, each containing one byte (i.e., eight bits) of storage.
 
 ???+ example "A $2^2$-by-3-Bit Memory"
@@ -249,19 +285,24 @@ We can build a circuit to carry out the specification of any truth table we wish
     </figure>
     虽然图上只画了3bit的寻址空间，但最大可寻址空间为$2^2=4$bits
 
-    Address Space = 4, Addressability = 3
+    Address Space = 4, Addressability = 4
 
+???+ question "5.2"
+    A memory’s addressability is 64 bits. What does that tell you about the size of the MAR and MDR?
+
+??? success "answer"
+    We can not determine the size of MAR. MDR should be 64 bits. 
 ### Sequential Logic Circuits
 
 > 组合逻辑电路只存储当前状态，而时序逻辑电路还存储了历史状态
 
 <figure markdown>
-![](ICS/SequentialLogicCircuits.png){ width="400" loading="lazy" }
+![Sequential Logic Circuits](ICS/SequentialLogicCircuits.png){ width="400" loading="lazy" }
 </figure>
 
 用于实现有限状态机
 
-#### master-slave flip-flop
+#### Master-Slave Flip-Flop
 
 <figure markdown>
 ![MasterSlaveFlipFlop](ICS/MasterSlaveFlipFlop.png){ width="600" loading="lazy" }
@@ -270,6 +311,34 @@ We can build a circuit to carry out the specification of any truth table we wish
 <figcaption>Timing Diagram</figcaption>
 </figure>
 
+???+ question "3.53"
+    The master/slave flip-flop we introduced in the chapter is shown below.
+    Note that the input value is visible at the output after the clock transitions from 0 to 1.
+    <figure markdown>
+    ![Fig-3.53.1](ICS/3.53.1.png){ width="600" loading="lazy" }
+    </figure>
+    Shown below is a circuit constructed with three of these flip-flops.
+    <figure markdown>
+    ![Fig-3.53.2](ICS/3.53.2.png){ width="600" loading="lazy" }
+    </figure>
+    Fill in the entries for D2, D1, D0 for each of clock cycles shown.
+    <figure markdown>
+    ![Fig-3.53.3](ICS/3.53.3.png){ width="600" loading="lazy" }
+    </figure>
+    In ten words or less, what is this circuit doing?
+
+??? success "answer"
+    |   |cycle0 | cycle1 | cycle2 | cycle3 | cycle4 | cycle5 | cycle6 | cycle7 |
+    | - |------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+    | D2| 0     | 1      | 1      | 1      | 1      | 0      | 0      | 0      |
+    | D1| 0     | 1      | 1      | 0      | 0      | 1      | 1      | 0      |
+    | D0| 0     | 1      | 0      | 1      | 0      | 1      | 0      | 1      |
+    
+    - Enumerate all states of a 3-bit binary number.
+
+    - A self reducing device.
+
+    - Extend the time of one clock cycle.
 ## Chapter 4 The Von Neumann Model
 
 ### Basic Components
@@ -299,8 +368,8 @@ We can build a circuit to carry out the specification of any truth table we wish
 ### The State Machine
 
 <figure markdown>
-![](ICS/statemachine.png){ width="700" loading="lazy" }
-![](ICS/intstatemachine.png){ width="700" loading="lazy" }
+![State Machine](ICS/statemachine.png){ width="700" loading="lazy" }
+![Int State Machine](ICS/intstatemachine.png){ width="700" loading="lazy" }
 </figure>
 
 ## Chapter 5 The LC-3
@@ -310,6 +379,8 @@ We can build a circuit to carry out the specification of any truth table we wish
 - N, Z, P: Negative, Zero, Positive
 
     有且仅有一个为1
+
+会Set CC的指令：ADD, AND, NOT, LD, LDI, LDR
 
 ### Addressing Modes
 
@@ -325,15 +396,28 @@ We can build a circuit to carry out the specification of any truth table we wish
 
     LDR, STR
 
+???+ question "5.4"
+    Say we have a memory consisting of 256 locations, and each location contains 16 bits.
+    a. How many bits are required for the address?
+    b. If we use the PC-relative addressing mode, and want to allow control transfer between instructions 20 locations away, how many bits of a branch instruction are needed to specify the PC-relative offset?
+    c. If a control instruction is in location 3, what is the PC-relative offset of address 10? Assume that the control transfer instructions work the same way as in the LC-3.
+
+??? success "answer"
+    a. 8 bits.
+    b. 6 bits. Since for $n$ bit offset, we can represent the range $-2^{n-1}+1$ to $2^{n-1}$.(PC has be incremented)
+    c. 6.Since when we calculate PC+offset, the PC has been incremented, which means PC points to the instruction after the control instruction, so here $PC=3+1=4$.
+
 ### Data Path
 
 加入中断后的data path不做要求
 
 <figure markdown>
-![](ICS/datapath.png){ width="700" loading="lazy" }
+![datapath](ICS/datapath.png){ width="700" loading="lazy" }
 </figure>
 
-典型考题：设计新指令需要对数据通路做哪些修改 
+#### ALUK
+
+It controls the operation performed in the ALU (***ADD, AND, or NOT***) during the current clock cycle.
 
 #### Global Bus
 
@@ -342,9 +426,78 @@ provide information to the bus at any one time.
 
 *[tri-state device]: 三态门
 
+
+???+ question "5.58"
+    Let’s use the unused opcode to implement a new instruction, as shown below:
+    <figure markdown>
+    ![Fig-5.58.1](ICS/5.58.1.png){ width="500" loading="lazy" }
+    </figure>
+    To accomplish this, we will need a small addition to the data path, shown below in boldface:
+    <figure markdown>
+    ![Fig-5.58.2](ICS/5.58.2.png){ width="700" loading="lazy" }
+    </figure>
+    The following five additional states are needed to control the data path to carry out the work of this instruction.
+    <figure markdown>
+    ![Fig-5.58.3](ICS/5.58.3.png){ width="700" loading="lazy" }
+    </figure>
+    Note: State B loads the negative of the contents of MDR into TEMP.<br/>
+    a. Complete the following table by identifying the values of the control signals needed to carry out the work of each state.
+    <figure markdown>
+    ![Fig-5.58.4](ICS/5.58.4.png){ width="700" loading="lazy" }
+    </figure>
+    b. What does the new instruction do?
+
+??? success "answer"
+    a.
+    <figure markdown>
+    ![Fig-5.58.ans](ICS/5.58ans.png){ width="700" loading="lazy" }
+    </figure>
+    b. 
+    ```pseudocode
+    if(Reg3 == mem[Reg2]):
+        mem[Reg2] = Reg1
+    ```
+
+???+ question "6.26"
+    During the execution of an LC-3 program, an instruction in the program starts executing at clock cycle T and requires 15 cycles to complete.<br/>
+    The table lists ***ALL*** five clock cycles during the processing of this instruction, which require use of the bus. The table shows for each of those clock cycles: which clock cycle, the state of the state machine, the value on the bus, and the important control signals that are active during that clock cycle.
+    <figure markdown>
+    ![Fig-6.26](ICS/6.26.png){ width="900" loading="lazy" }
+    </figure>
+
+    a. Fill in the missing entries in the table.
+
+    b. What is the instruction being processed?
+
+    c. Where in memory is that instruction?
+
+    d. How many clock cycles does it take memory to read or write?
+
+    e. There is enough information above for you to know the contents of three memory locations. What are they, and what are their contents?
+
+??? success "answer"
+    a.
+    <figure markdown>
+    ![](ICS/6.26ans.png){ width="900" loading="lazy" }
+    </figure>
+
+    b. LDI, R1, #2
+
+    c. x3010
+
+    d. 2 cycles
+
+    e.
+
+    | location | content |
+    | -------- | ------- |
+    | x3010    | xA202   |
+    | x3013    | x4567   |
+    | x4567    | x0000   |
+
 ## Chapter 7 Assembly Language
 
-#### Pseudo-ops
+### Pseudo-ops
 
 - .ORIG
 
@@ -368,14 +521,14 @@ provide information to the bus at any one time.
 1. Implemented in hardware
 
     <figure markdown>
-    ![](ICS/stackhardware.png){ width="700" loading="lazy" }
+    ![stack hardware](ICS/stackhardware.png){ width="700" loading="lazy" }
     <figcaption>Data entries move</figcaption>
     </figure>
 
 2. Implemented in memory
 
     <figure markdown>
-    ![](ICS/stackmemory.png){ width="700" loading="lazy" }
+    ![stack memory](ICS/stackmemory.png){ width="700" loading="lazy" }
     <figcaption>Data entries do not move</figcaption>
     </figure>
 
@@ -397,16 +550,24 @@ provide information to the bus at any one time.
 USER_PSR 默认存放于x2FFF, OS_PSR 默认存放于xFFFC
 
 <figure markdown>
-![](ICS/OrganizationofMemorys.png){ width="500" loading="lazy" }
+![Organization of Memorys](ICS/OrganizationofMemorys.png){ width="500" loading="lazy" }
 </figure>
 
 ### Input/Output
 
 - Memory-Mapped I/O vs. Special I/O Instructions
+  
+    即通过内存地址访问I/O设备，还是通过特殊指令访问I/O设备
 
 - Asynchronous vs. Synchronous
+  
+    即CPU是否需要等待I/O设备完成操作|CPU和I/O设备是否共用同一时钟
+
+    For sysnchronous I/O, a `ready bit` is needed. 用于判断I/O设备是否完成操作避免CPU重复获取上一数据
 
 - Interrupt-Driven vs. Polling
+  
+    即I/O设备主动通知CPU完成操作还是CPU主动轮询I/O设备是否完成操作
 
 #### Keyboard
 
@@ -488,8 +649,23 @@ USER_PSR 默认存放于x2FFF, OS_PSR 默认存放于xFFFC
 
     2. 在每次循环前先允许中断再禁止中断，即中断无需等待整个轮询完成，只需等待一次轮询的循环完成即可
 
-## Exercise
+## The Instruction Set
 
-5.41(hard)
+<figure markdown>
+![Instruction Set](ICS/InstructionSet.png){ width="700" loading="lazy" }
+</figure>
 
-5.51(data path典型考题)
+### JSR
+
+将PC值自增后存入R7，将PCOffset9的值符号扩展到16位并加上PC后跳转
+
+!!! warning
+    嵌套调用时，R7的值会被覆盖，只能返回最近一层调用
+
+### TRAP
+
+push PSR, push (PC+1), set PSR[15] to 0, zero-extend trap vector to 16 bits and get the address from corresponding memory location(Trap Vector Table).
+
+### RTI
+
+pop PC, pop PSR, change the stack pointer if necessary
