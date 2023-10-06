@@ -31,6 +31,10 @@
 	font-size: 0.75rem;
 }
 
+.md-typeset h5 {
+	text-transform: none;
+}
+
 /* counter */
 .md-typeset h1 {
 	counter-reset: h2;
