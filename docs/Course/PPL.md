@@ -206,7 +206,7 @@ $$
 &\overline{1}=\lambda s.\lambda z.s\ z\\\\
 &\overline{2}=\lambda s.\lambda z.s\ (s\ z)\\\\
 &...\\\\
-&\overline{n}=\lambda s.\lambda z.s\ (s\ (s\ ...\ (s\ z)))\ [n\ times]\\\\
+&\overline{n}=\lambda s.\lambda z.\underbrace{s\ (s\ (s\ ...\ (s}_{n\ times}\ z)))\\\\
 \end{aligned}
 $$
 
@@ -214,7 +214,7 @@ $$
 
 The representation $\overline{n}$ iterates its first argument $n$ times over its second argument:
 
-$\overline{n}\ f\ x=f^n(x)$, where $f^n(x)=f(f(...(f(x))))\ [n\ times]$.
+$\overline{n}\ f\ x=f^n(x)$, where $f^n(x)=\underbrace{f(f(...(f}_{n\ times}(x))))$.
 
 $$
 \begin{aligned}
@@ -233,12 +233,69 @@ $$
     \end{aligned}
     $$
 
+##### Arithmetic
+
+常用运算的$\lambda$表达式详见[wiki](https://en.wikipedia.org/wiki/Church_encoding#Table_of_functions_on_Church_numerals)
+
+此处仅以加法和乘法为例
+
+=== "Add"
+    $\lambda a.\lambda b.\lambda f.\lambda x.a\ f\ (b\ f\ x)$
+
+    ??? tip "胡言乱语"
+        整数$b$用$(b\ f\ x)$表示，即$f$在$x$上作用$b$次，在这基础上再把$f$作用$a$次，即得到$a+b$的表示。
+
+=== "Mult"
+    $\lambda a.\lambda b.\lambda f.\lambda x.a\ (b\ f)\ x$
+
+    ??? tip "胡言乱语"
+        表示$(b\ f)$在$x$上作用$a$次，其中$(b\ f)$表示$f$作用$b$次，即实现$a*b$。
+
+#### Y Combinator
+
+$Y$组合用于实现递归。
+
+$Y = \lambda p.(\lambda f.p\ (f\ f))(\lambda f.p\ (f\ f))$
+
+???+ tip "理解"
+    假设我们需要实现递归函数$sum(n)=0+1+...+n$，思路为若$n$为$0$，则返回$0$，否则返回$n+sum(n-1)$，即$sum\ =\ \lambda n.\ is\_zero\ n\ 0\ (n\ +\ sum(pred\ n))$
+
+    然而这样的等式目前无法写成$\lambda$表达式，$\lambda$表达式并不提供自我引用名字的机制。
+
+    在$\lambda$表达式中，函数体内只能使用函数的参数，因此我们考虑将函数名作为函数参数的一部分传入函数体。
+
+    ```cpp
+    int proto(void *f, int n) {
+        if (n == 0) return 0;
+        return n + ((int (*)(void *, int))f)(f, n - 1);
+    }
+    ```
+
+    转换为$\lambda$表达式，可以得到：
+
+    $u\ =\ \lambda f.\lambda n.\ is\_zero\ n\ 0\ (n+f(pred\ n))$，此处的$f$即为$f(int\ n)$
+
+    $proto\ =\ \lambda f.\lambda n.\ is\_zero\ n\ 0\ (n+f\ f\ (pred\ n))$，此处的$f$即为$f(void\ *f, int\ n)$
+
+    $proto\ proto\ =\ (\lambda f.\lambda n.\ is\_zero\ n\ 0\ (n+f\ f\ (pred\ n)))\ proto\\
+    =\ \lambda n.\ is\_zero\ n\ 0\ (n+proto\ proto\ (pred\ n))$，将proto代入，替换$f$
+
+    $sum\ =\ proto\ proto\\
+    =\ \lambda n.\ is\_zero\ n\ 0\ (n+sum\ (pred\ n))$
+
+    我们将这个打包过程抽象出来，从最初的$u$得到最终所需的$proto\ proto$：
+
+    $sum\ =\ proto\ proto\\
+    =\ (\lambda f.u\ (f\ f))(\lambda f.u\ (f\ f))\\
+    =\ (\lambda v,(\lambda f.v\ (f\ f))(\lambda f.v\ (f\ f)))\ u\\
+    =\ Y\ u$
+
 ## Abstract Syntax Tree
 
 - 叶结点是变量（或没有变量的运算符），内部结点是运算符，其子节点是它的参数。
 - 变量是某种类型的不指定的语法片段。
 
-*[或没有变量的运算符]: W4 开课小测
+<!-- *[或没有变量的运算符]: W4 开课小测 -->
 
 ### sort
 
@@ -277,6 +334,10 @@ $A[X]=\{A[X]_s\}_{s\in S}$是满足以下条件的最小族：
 ### 代换
 
 如果$a\in A[X,x]_s$，且$b\in A[X]_s$，则用$b$代换$a$中出现的所有$x$得到的结果是$[b/x]a\in A[X]_s$ 。
+
+定义ast a为代换目标，x为代换主体，代换由以下等式定义：
+- $[b/x]x=b$，且当$x\ne y$时，$[b/x]y=y$；
+- $[b/x]o(a_1,...,a_n)=o([b/x]a_1,...,[b/x]a_n)$。
 
 #### 定理1
 
@@ -325,6 +386,8 @@ $$
 $$
 
 表明当$J_1,...,J_k$成立时，$J$成立，反之不一定成立。
+
+其中，分子为前提，分母为结论。没有前提的规则成为公理。
 
 ### 推导
 

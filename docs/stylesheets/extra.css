@@ -76,3 +76,7 @@
 	counter-increment: h5;
 	content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
 }
+
+.md-typeset .admonition, .md-typeset details {
+	font-size: .7rem;
+}
