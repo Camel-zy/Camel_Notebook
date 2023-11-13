@@ -1,10 +1,10 @@
 site_name: Camel's Notebook
-site_url: https://note.camel-zy.top
-site_author: Camel_zy
-repo_url: https://github.com/Camel-zy/Camel_Notebook
-repo_name: Camel-zy/Camel_Notebook
+site_url: https://note.camel-exvl.top
+site_author: Camel_exvl
+repo_url: https://github.com/Camel-exvl/Camel_Notebook
+repo_name: Camel_Notebook
 edit_uri: edit/master/docs/
-copyright: Copyright &copy; 2023 Camel_zy
+copyright: Copyright &copy; 2023 Camel_exvl
 nav:
   - 首页: 'index.md'
   - 技术记录:

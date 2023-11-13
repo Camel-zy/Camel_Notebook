@@ -399,3 +399,458 @@ $$
 
 - 迭代(iteration)：一个归纳定义建立在另一个归纳定义之上。
 - 联立(simultaneous)：又称相互归纳定义，所有的判断形式的规则是由整个规则集合同时定义的。
+
+## Statics
+
+引入一种简单表达式语言**E**。
+
+### 语法
+
+$$
+\begin{aligned}
+Typ\quad \tau\quad ::=\quad &num\\
+&str\\
+Exp\quad e\quad ::=\quad &x\\
+&num[n]\\
+&str[s]\\
+&plus(e_1;e_2)\\
+&times(e_1;e_2)\\
+&cat(e_1;e_2)\\
+&len(e)\\
+&let(e_1;x.e_2)\quad 表示let\ x\ be\ e_1\ in\ e_2\\
+\end{aligned}
+$$
+
+
+???+ quote "引入与消去"
+    语言的结构分为两种形式。
+
+    - 引入(introduction)：确定类型的值或范式。
+    - 消去(elimination)：确定如何操作该类型的值以形成另一种类型的计算。
+
+    在**E**语言系统中，$num$和$str$是将字面量引入**E**语言系统，加法、乘法即为消去。
+
+### 类型系统
+
+类型系统用于约束短语(phrase)的形成，其中短语是上下文敏感的。
+
+例如，表达式$plus(x;num[n])$是否合理，取决于$x$的类型是否为$num$。
+
+**E**的静态语义由如下形式的泛型假言判断的归纳定义组成：
+
+$$
+\overrightarrow{x}|\Gamma \vdash e:\tau
+$$
+
+- $\overrightarrow{x}$：变量的有限集合
+- $\Gamma$：定型上下文（typing context），针对每个$x\in\overrightarrow{x}$有一个形如$x:\tau$的假设，$\Gamma={x_1:\sigma_1,...,x_k:\sigma_k}$
+- 定型公理：$e:\tau$，符号$e$有类型$tau$
+
+??? note "**E**的静态语义规则"
+    前三条为定型公理，之后四条为定型判断，最后一条表示若变量$x$尚未在$\Gamma$中声明，$e_1$是类型$\tau_1$的而$e_2$是类型$\tau_2$的，则将$e_2$中的$e_1$替换为$x$之后，$e_2$的类型不变。
+    $$
+    \begin{aligned}
+    &\frac{}{\Gamma,x:\tau\vdash x:\tau}\\\\
+    &\frac{}{\Gamma\vdash str[s]:str}\\\\
+    &\frac{}{\Gamma\vdash num[n]:num}\\\\
+    \\\\
+    &\frac{\Gamma\vdash e_1:num\quad\Gamma\vdash e_2:num}{\Gamma\vdash plus(e_1;e_2):num}\\\\
+    &\frac{\Gamma\vdash e_1:num\quad\Gamma\vdash e_2:num}{\Gamma\vdash times(e_1;e_2):num}\\\\
+    &\frac{\Gamma\vdash e_1:str\quad\Gamma\vdash e_2:str}{\Gamma\vdash cat(e_1;e_2):str}\\\\
+    &\frac{\Gamma\vdash e:str}{\Gamma\vdash len(e):num}\\\\
+    \\\\
+    &\frac{\Gamma\vdash e_1:\tau_1\quad\Gamma,x:\tau_1\vdash e_2:\tau_2}{\Gamma\vdash let(e_1;x.e_2):\tau_2}\\\\
+    \end{aligned}
+    $$
+
+我们用$x\notin dom(\Gamma)$表示对任意类型$\tau$，在$\Gamma$中没有$x:\tau$的假设，此时称变量$x$对于$\Gamma$是新的，且有$\Gamma,x:\tau=\Gamma\cup x:\tau$。
+
+#### 类型唯一性
+
+引理4.1(Unicity of Typing):
+
+对每个定型上下⽂$\Gamma$和表达式$e$，最多存在⼀个$\tau$，满⾜$\Gamma\vdash e:\tau$。
+
+即**E**语言没有变量重载。
+
+#### 定型反转
+
+引理4.2(inversion for typing):
+
+假设$\Gamma\vdash e:\tau$，若$e=plus(e_1;e_2)$，则$\tau=num,\Gamma\vdash e_1:num$，且$\Gamma\vdash e_2:num$。
+
+即可以根据结果类型反推出参数类型。
+
+#### 弱化
+
+引理4.3(weakening):
+
+若$\Gamma\vdash e':\tau'$，则对任意$x\notin dom(\Gamma)$和类型$tau$，有$\Gamma,x:\tau\vdash e':\tau'$。
+
+即可以在上下文中添加新的变量，不影响原有的定型。
+
+#### 代换
+
+引理4.4(substitution):
+
+若$\Gamma,x:\tau\vdash e':\tau'$，且$\Gamma\vdash e:\tau$，则$\Gamma\vdash [e/x]e':\tau'$。
+
+即可以同类型代换。
+
+#### 分解
+
+引理4.5(decomposition):
+
+若$\Gamma\vdash [e/x]e':\tau'$，则对满足$\Gamma\vdash e:\tau$的每个类型$\tau$，有$\Gamma,x:\tau\vdash e':\tau'$。
+
+即代换的逆过程。
+
+## Dynamics
+
+### 转换系统
+
+转换系统由以下4种形式的判断来描述：
+
+1. $s\ state$，断言$s$是转换系统的一个状态
+2. $s\ final$，对$s\ state$，断言$s$是一个终结状态
+3. $s\ initial$，对$s\ state$，断言$s$是一个初始状态
+4. $s\mapsto s'$，对$s\ state$和$s'\ state$，断言状态$s$可以转换到状态$s'$
+
+---
+
+- 如果$s\ final$，那么没有$s'$满足$s\mapsto s'$。
+- 一个无法转换的状态是卡住的(stuck)
+- 所有终结状态都是卡住的，非终结状态也可能是卡住的
+- 一个转换系统是确定的(deterministic)当且仅当对所有的状态$s$，最多只有一个$s'$满足$s\mapsto s'$。【注意：转换过程可以有多条路径，最终状态唯一即可】
+
+#### 转换序列
+
+转换序列是一系列状态$s_0,...,s_n$，满足$s_0\ initial$，且对任意$0\le i<n$，都有$s_i\mapsto s_{i+1}$。
+
+- 一个转换序列是最大的(maximal)当且仅当没有$s$满足$s_n\mapsto s$，即$s_n$是卡住的。
+- 一个转换序列是完备的(complete)当且仅当它是最大的且$s_n\ final$。
+
+判断$s\downarrow$表示有一个从$s$开始的完备转换序列，也就是说存在$s'\ final$满足$s\mapsto^* s'$。
+
+其中，$s\mapsto^* s'$转换判断的任意次迭代由以下规则归纳定义：
+
+$$
+\begin{aligned}
+&\frac{}{s\mapsto^* s}\\
+&\frac{s\mapsto s'\quad s'\mapsto^* s''}{s\mapsto^* s''}\\
+\end{aligned}
+$$
+
+> 该迭代是自反且传递的。
+
+### 结构化动态语义
+
+定义判断$e\ eval$，表示$e$是一个值。
+
+$$
+\begin{aligned}
+&\frac{}{num[n]\ eval}\\
+&\frac{}{str[s]\ eval}\\
+\end{aligned}
+$$
+
+??? note "状态之间的转换判断$e\mapsto e'$的规则"
+    转换的路径是确定的（即串行计算），在$plus$中一定先完成$e_1$的计算再算$e_2$,最后执行$plus$。
+
+    $$
+    \begin{aligned}
+    &\frac{n_1+n_2=n}{plus(num[n_1];num[n_2])\mapsto num[n]}\\\\
+    &\frac{e_1\mapsto e_1'}{plus(e_1;e_2)\mapsto plus(e_1';e_2)}\\\\
+    &\frac{e_1\ val\quad e_2\mapsto e_2'}{plus(e_1;e_2)\mapsto plus(e_1;e_2')}\\\\
+    &\frac{s_1\text{\textasciicircum}s_2=s\ str}{cat(str[s_1];str[s_2])\mapsto str[s]}\\\\
+    &\frac{e_1\mapsto e_1'}{cat(e_1;e_2)\mapsto cat(e_1';e_2)}\\\\
+    &\frac{e_1\ val\quad e_2\mapsto e_2'}{cat(e_1;e_2)\mapsto cat(e_1;e_2')}\\\\
+    &\frac{e_1\mapsto e_1'}{let(e_1;x.e_2)\mapsto let(e_1';x.e_2)}\\\\
+    &\frac{e_1\ val}{let(e_1;x.e_2)\mapsto [e_1/x]e_2}\\\\
+    \end{aligned}
+    $$
+
+    ???+ example "🌰"
+        $$
+        \begin{aligned}
+        &let(plus(num[1];num[2]);x.plus(x;num[3]);num[4])\\
+        &\mapsto let(num[3];x.plus(x;num[3]);num[4])\\
+        &\mapsto plus(plus(num[3];num[3]);num[4])\\
+        &\mapsto plus(num[6];num[4])\\
+        &\mapsto num[10]\\
+        \end{aligned}
+        $$
+
+#### 值的终结性
+
+引理5.2(Finality of Values):
+
+不存在表达式$e$，使得对某个$e'$，$e\ val$和$e\mapsto e'$同时成立。
+
+#### 确定性
+
+引理5.3(Determinacy):
+
+如果$e\mapsto e'$且$e\mapsto e''$，那么$e'$和$e''$$\alpha$等价。
+
+### 上下文动态语义
+
+使用求值上下文(evaluation context)的方法对定位下一条的指令的过程加以形式化。
+
+判断$\varepsilon\ ectxt$（E是一个求值上下文）确定下一条要执行的指令的位置。下一条指令用"洞"表示，记做$\circ$。
+
+$$
+\begin{aligned}
+&\frac{}{\circ\ ectxt}\\
+&\frac{\varepsilon_1\ ectxt}{plus(\varepsilon_1;e_2)\ ectxt}\\
+&\frac{e_1\ val\quad\varepsilon_2\ ectxt}{plus(e_1;\varepsilon_2)\ ectxt}\\
+\end{aligned}
+$$
+
+## Function Definitions and Values
+
+引入语言**ED**作为**E**的扩展，增加了函数定义和函数应用。
+
+### 一阶函数
+
+$$
+\begin{aligned}
+Exp\quad e\quad ::=\quad &apply\{f\}(e)&\quad &表示f(e)\\
+&fun\{\tau_1;\tau_2\}(x_1.e_2;f.e)&\quad &表示fun\ f(x_1:\tau_1):\tau_2=e_2\ in\ e\\
+\end{aligned}
+$$
+
+把$e$中的函数名$f$绑定到模式$x_1.e_2$，该模式具有参数$x_1$和定义$e_2$，规定了在应用$f$时实例化的模式。
+
+??? tip "理解"
+    函数名为$f$，形参为$x_1$，形参类型为$\tau_1$，返回值类型为$\tau_2$，函数体为$e_2$，实参为$e$。
+
+一阶函数的定义域和值域只能是$num$和$str$。
+
+#### 函数代换
+
+记作$[[x.e/f]]e'$，定义如下：
+
+$$
+\frac{}{[[x.e/f]]apply\{f\}(e')=let([[x.e/f]]e';x.e)}
+$$
+
+??? quote "解释（原文）"
+    At application sites to $f$ with argument $e′$, function substitution yields a $let$ expression that binds $x$ to the result of expanding any further applications to $f$ within $e′$.
+
+在$f(e')$处，函数代换生成一个$let$表达式，该表达式将$x$绑定到在$e'$中任意进一步应用$f$的结果。
+
+### 高阶函数
+
+函数的参数或返回类型也是函数，即让函数成为一种数据类型。
+
+引入**EF**语言，增加一种新的类型`arr`
+
+$$
+\begin{aligned}
+Typ\quad \tau\quad ::=\quad &arr(\tau_1;\tau_2)\\
+Exp\quad e\quad ::=\quad &lam\{\tau\}(x.e)&\quad &表示\lambda (x:\tau)e\\
+&ap(e_1;e_2)&\quad &表示e_1(e_2)\\
+\end{aligned}
+$$
+
+### 静态语义
+
+$$
+\begin{aligned}
+&\frac{\Gamma ,x:\tau_1\vdash e:\tau_2}{\Gamma \vdash lam\{\tau_1\}(x.e):arr(\tau_1;\tau_2)}\\\\
+&\frac{\Gamma \vdash e_1:arr(\tau_2;\tau)\quad\Gamma \vdash e_2:\tau_2}{\Gamma \vdash ap(e_1;e_2):\tau}\\\\
+\end{aligned}
+$$
+
+#### 反转
+
+引理8.2：
+
+假设$\Gamma \vdash e:\tau$
+
+1. 如果$e=lam\{\tau_1\}(x.e_2)$，那么$\tau=arr(\tau_1;\tau_2)$且$\Gamma ,x:\tau_1\vdash e_2:\tau_2$
+2. 如果$e=ap(e_1;e_2)$，那么存在$\tau_2$使得$\Gamma \vdash e_1:arr(\tau_2;\tau)$且$\Gamma \vdash e_2:\tau_2$
+
+#### 代换
+
+引理8.3：
+
+如果$\Gamma ,x:\tau\vdash e':\tau'$且$\Gamma \vdash e:\tau$，那么$\Gamma \vdash [e/x]e':\tau'$
+
+#### 保持性
+
+定理8.4：
+
+如果$e:\tau$且$e\mapsto e'$，那么$e':\tau$
+
+#### 范式
+
+引理8.5：
+
+如果$e:arr(\tau_1;\tau_2)，且$e\ val$，那么对满足$x:\tau_1\vdash \e_2:\tau_2$的变量$x$和表达式$e_2$，有$e=\lambda(x:\tau_1)e2$
+
+#### 进展性
+
+引理8.6：
+
+如果$e:\tau$，则要么$e\ val$，要么存在$e'$使得$e\mapsto e'$
+
+### 动态作用域
+
+以定义时的上下文作为运行上下文的为静态作用域。
+
+例如以下代码
+
+```
+x <- 1
+f <- function(a) x + a
+g <- function() {
+    x <- 2
+    f(0)
+}
+g(0)
+```
+
+在静态作用域中，`g(0)`的结果为`1`，而在动态作用域中，`g(0)`的结果为`2`。
+
+## System T of Higher-Order Recursion
+
+### 全函数与计算的可终止性
+
+#### 部分函数
+
+如果$f$是从A到B的二元关系，且$\forall a \in A$，有$f(a) = \empty$或$\{b\}$。
+
+当$f(a)=\{b\}$时，记作$f(a)\downarrow$。（即表示$f(a)$非空）
+
+#### 全函数
+
+如果$\forall a \in A$，都有$f(a)\downarrow$，则称$f$是A上的全函数，可记为$f:A\rightarrow B$。
+
+#### 非终止性
+
+定义特殊元素$\bot$，称为bottom，表示非终止性。
+
+一个函数称为严格的(strict)，如果接受一个非终止的输入表达式函数的计算也不会终止，即$f(\bot)=\bot$；否则称为非严格的(non-strict)。
+
+### 合成运算与原始递归运算
+
+#### 合成运算
+
+设$f$时$n$元部分函数，$g_1,g_2,...,g_k$是$k$个$n$元部分函数，令：
+
+$h(x_1,...,x_n)=f(g_1(x_1,...,x_n),...,g_k(x_1,...,x_n))$
+
+则称$h$是由$f$和$g_1,...,g_k$经过合成得到的。
+
+#### 原始递归运算
+
+设$f$是一个$n$元全函数，$g$是$n+2$元全函数，令，
+
+$h(x_1,...,x_n,0)=f(x_1,...,x_n)$
+
+$h(x_1,...,x_n,t+1)=g(t,h(x_1,...,x_n,t),x_1,...,x_n)$
+
+则称$h$是由$f$和$g$经过原始递归运算得到的。
+
+### System T: $G\"{o}del’s\ T$
+
+**E**是以$num$和$str$为类型的语言，
+
+**T**是以$nat$为类型的语言（原始递归）。
+
+#### 语法
+
+$$
+\begin{aligned}
+Typ\quad \tau\quad ::=\quad &nat\\
+&arr(\tau_1;\tau_2)\\
+Exp\quad e\quad ::=\quad &x&\quad &&&变量\\
+&z&\quad &&&零\\
+&s(e)&\quad &&&后继\\
+&rec\{e_0;x.y.e_1\}(e)&\quad &rec\ e\{z\hookrightarrow e_0 | s(x)\ with\ y \hookrightarrow e_1\}&\quad &递归\\
+&lam\{\tau\}(x.e)&\quad &\lambda(x:\tau)e&\quad &抽象\\
+&ap(e_1;e_2)&\quad &e_1(e_2)& \quad &应用\\
+\end{aligned}
+$$
+
+???+ tip "递归算子理解"
+    其中，对递归算子(recursive)作以下说明：
+
+    $\hookrightarrow$称为`lead to`。$rec\{e_0;x.y.e_1\}(e)$可理解为一个分段函数：
+
+    $$
+    e = \begin{cases}
+    e_0 &\text{if } e==z \\
+    e_1 &\text{if } e==s(x)\ with\ y
+    \end{cases}
+    $$
+
+    运算时，$rec\{e_0;x.y.e_1\}(e)$表示从$e_0$开始，对变换$x.y.e_1$进行$e$轮迭代（每一轮$x-1$，直到$x$为$z$）。$x$是前驱，$y$是经历迭代的结果。
+
+另一种迭代算子$iter\{e_0;y.e_1\}(e)$，这里没有绑定变量$x$，递归调用的结果绑定到$e_1$中的$y$。
+
+#### 静态语义
+
+$$
+\begin{aligned}
+&\frac{}{\Gamma ,x:\tau\vdash x:\tau}\\\\
+&\frac{}{\Gamma \vdash z:nat}\\\\
+&\frac{\Gamma \vdash e:nat}{\Gamma \vdash s(e):nat}\\\\
+&\frac{\Gamma \vdash e:nat\quad\Gamma \vdash e_0:\tau\quad\Gamma ,x:nat,y:\tau\vdash e_1:\tau}{\Gamma \vdash rec\{e_0;x.y.e_1\}(e):\tau}\\\\
+&\frac{\Gamma ,x:\tau_1\vdash e:\tau_2}{\Gamma \vdash lam\{\tau_1\}(x.e):arr(\tau_1;\tau_2)}\\\\
+&\frac{\Gamma \vdash e_1:arr(\tau_2;\tau)\quad\Gamma \vdash e_2:\tau_2}{\Gamma \vdash ap(e_1;e_2):\tau}\\\\
+\end{aligned}
+$$
+
+##### 代换
+
+引理9.1：
+
+如果$\Gamma \vdash e:\tau$并且$\Gamma, x:\tau \vdash e':\tau'$，则$\Gamma \vdash [e/x]e':\tau'$。
+
+#### 动态语义
+
+##### 闭值
+
+其中`[]`表示eager计算
+
+$$
+\begin{aligned}
+&\frac{}{z\ val}\\\\
+&\frac{[e\ val]}{s(e)\ val}\\\\
+&\frac{}{lam\{\tau\}(x.e)\ val}
+\end{aligned}
+$$
+
+##### 转换规则
+
+$$
+\begin{aligned}
+&[\frac{e\mapsto e'}{s(e)\mapsto s(e')}]\\\\
+&\frac{e_1\mapsto e_1'}{ap(e_1;e_2)\mapsto (e_1';e_2)}\\\\
+&[\frac{e_1\ val\quad e_2 \mapsto e_2'}{ap(e_1;e_2)\mapsto ap(e_1;e_2'))}]\\\\
+&\frac{[e_2\ val]}{ap(lam\{\tau\}(x.e);e_2)\mapsto [e_2/x]e}\\\\
+&\frac{e\mapsto e'}{rec\{e_0;x.y.e_1\}(e)\mapsto rec{e_0;x.y.e_1}(e')}\\\\
+&\frac{}{rec\{e_0;x.y.e_1\}(z)\mapsto e_0}\\\\
+&\frac{s(e)\ val}{rec\{e_0;x.y.e_1\}(s(e))\mapsto [e,rec\{e_0;x.y.e_1\}(e)/x,y]e_1}\\\\
+\end{aligned}
+$$
+
+最后一条即为递归计算一层。
+
+###### 范式
+
+引理9.2：
+
+如果$e:\tau$且$e\ val$，则
+
+1. 如果$\tau = nat$，则$e=z$，或者存在$e'$使得$e=s(e')$成立
+2. 如果$\tau=\tau_1\rightarrow\tau_2$，则存在$\tau_2$使得$e=\lambda(x:\tau_1)e_2$成立
+
+###### 安全性
+
+1. 如果$e:\tau$且$e\mapsto e'$，则$e':\tau$
+2. 如果$e:\tau$则要么$e\ val$，要么存在$e'$使得$e\mapsto e'$成立
+
