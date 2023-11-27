@@ -444,7 +444,7 @@ $$
 
 - $\overrightarrow{x}$：变量的有限集合
 - $\Gamma$：定型上下文（typing context），针对每个$x\in\overrightarrow{x}$有一个形如$x:\tau$的假设，$\Gamma={x_1:\sigma_1,...,x_k:\sigma_k}$
-- 定型公理：$e:\tau$，符号$e$有类型$tau$
+- 定型公理：$e:\tau$，符号$e$有类型$\tau$
 
 ??? note "**E**的静态语义规则"
     前三条为定型公理，之后四条为定型判断，最后一条表示若变量$x$尚未在$\Gamma$中声明，$e_1$是类型$\tau_1$的而$e_2$是类型$\tau_2$的，则将$e_2$中的$e_1$替换为$x$之后，$e_2$的类型不变。
@@ -565,8 +565,8 @@ $$
     &\frac{s_1\text{\textasciicircum}s_2=s\ str}{cat(str[s_1];str[s_2])\mapsto str[s]}\\\\
     &\frac{e_1\mapsto e_1'}{cat(e_1;e_2)\mapsto cat(e_1';e_2)}\\\\
     &\frac{e_1\ val\quad e_2\mapsto e_2'}{cat(e_1;e_2)\mapsto cat(e_1;e_2')}\\\\
-    &\frac{e_1\mapsto e_1'}{let(e_1;x.e_2)\mapsto let(e_1';x.e_2)}\\\\
-    &\frac{e_1\ val}{let(e_1;x.e_2)\mapsto [e_1/x]e_2}\\\\
+    &[\frac{e_1\mapsto e_1'}{let(e_1;x.e_2)\mapsto let(e_1';x.e_2)}]\\\\
+    &\frac{[e_1\ val]}{let(e_1;x.e_2)\mapsto [e_1/x]e_2}\\\\
     \end{aligned}
     $$
 
@@ -640,6 +640,23 @@ $$
 
 在$f(e')$处，函数代换生成一个$let$表达式，该表达式将$x$绑定到在$e'$中任意进一步应用$f$的结果。
 
+相当于$let\ x\ be\ [[x.e/f]]e'\ in\ e$，但由于$e'$中可能仍有$f$（递归），因此需要用$let$表达式将$x$绑定到$[[x.e/f]]e'$。
+
+#### 静态语义
+
+$$
+\begin{aligned}
+&\frac{\Gamma ,x_1:\tau_1\vdash e_2:\tau_2\quad \Gamma ,f(\tau_1):\tau_2\vdash e:\tau}{\Gamma \vdash fun\{\tau_1;\tau_2\}(x_1.e_2;f.e):\tau}\\\\
+&\frac{\Gamma \vdash f(\tau_1):\tau_2\quad \Gamma \vdash e:\tau_1}{\Gamma \vdash apply\{f\}(e):\tau_2}\\\\
+\end{aligned}
+$$
+
+#### 动态语义
+
+$$
+\frac{}{fun{\tau_1;\tau_2}(x_1.e_2;f.e)\longmapsto [[x_1.e_2/f]]e
+$$
+
 ### 高阶函数
 
 函数的参数或返回类型也是函数，即让函数成为一种数据类型。
@@ -700,6 +717,8 @@ $$
 
 以定义时的上下文作为运行上下文的为静态作用域。
 
+以执行时的上下文作为运行上下文的为动态作用域。
+
 例如以下代码
 
 ```
@@ -713,6 +732,8 @@ g(0)
 ```
 
 在静态作用域中，`g(0)`的结果为`1`，而在动态作用域中，`g(0)`的结果为`2`。
+
+（常见的编程语言均为静态作用域，即使是解释型语言Python也是静态作用域）
 
 ## System T of Higher-Order Recursion
 
@@ -814,7 +835,7 @@ $$
 
 ##### 闭值
 
-其中`[]`表示eager计算
+其中`[]`表示eager解释
 
 $$
 \begin{aligned}
@@ -828,9 +849,9 @@ $$
 
 $$
 \begin{aligned}
-&[\frac{e\mapsto e'}{s(e)\mapsto s(e')}]\\\\
+&\left [\frac{e\mapsto e'}{s(e)\mapsto s(e')}\right ]\\\\
 &\frac{e_1\mapsto e_1'}{ap(e_1;e_2)\mapsto (e_1';e_2)}\\\\
-&[\frac{e_1\ val\quad e_2 \mapsto e_2'}{ap(e_1;e_2)\mapsto ap(e_1;e_2'))}]\\\\
+&\left [\frac{e_1\ val\quad e_2 \mapsto e_2'}{ap(e_1;e_2)\mapsto ap(e_1;e_2'))}\right ]\\\\
 &\frac{[e_2\ val]}{ap(lam\{\tau\}(x.e);e_2)\mapsto [e_2/x]e}\\\\
 &\frac{e\mapsto e'}{rec\{e_0;x.y.e_1\}(e)\mapsto rec{e_0;x.y.e_1}(e')}\\\\
 &\frac{}{rec\{e_0;x.y.e_1\}(z)\mapsto e_0}\\\\
@@ -853,4 +874,169 @@ $$
 
 1. 如果$e:\tau$且$e\mapsto e'$，则$e':\tau$
 2. 如果$e:\tau$则要么$e\ val$，要么存在$e'$使得$e\mapsto e'$成立
+
+## Product Types
+
+### 基本定义
+
+#### 二元积
+
+- 二元积(binary product)：值的有序对(ordered pairs)。
+- 消去形式：投影(project)，选择有序对的第一个或第二个分量。
+- 空积(nullary product)：唯一的不包含任何值的空元组，没有对应的消去形式。
+- 惰性(lazy)动态语义：无论分量是否是值，有序对都是值。
+- 急性(eager)动态语义：分量都是值时，有序对才是值。
+
+#### 有限积
+
+二元积以上称为有限积(infinite product)。
+
+- $<\tau_i>_{i\in I}$，其中$I$是索引的有限集。
+- 每个有限积类型的元素都是$I$-索引的元组，每个元组的第$i$个分量的类型为$\tau_i(i\in I)$
+- 分量可以用$I$-索引的投影来访问。
+- n元组：用$I=\{0,...,n-1\}$索引
+- 记录(record)：用有限符号集索引
+- 有限积同样可做急性和惰性解释。
+
+### 空积和二元积
+
+#### 语法
+
+$$
+\begin{aligned}
+Typ\quad \tau\quad ::=\quad &unit\quad& &unit\quad& &空积&\\
+&prod(\tau_1;\tau_2)\quad& &\tau_1\times\tau_2\quad& &二元积&\\
+Exp\quad e\quad ::=\quad &triv\quad& &<>\quad& &空元组&\\
+&pair(e_1;e_2)\quad& &<e_1,e_2>\quad& &有序对&\\
+&pr[l](e)\quad& &e\cdot l\quad& &左投影&\\
+&pr[r](e)\quad& &e\cdot r\quad& &右投影&\\
+\end{aligned}
+$$
+
+#### 静态语义
+
+$$
+\begin{aligned}
+&\frac{}{\Gamma \vdash <>:unit}\\\\
+&\frac{\Gamma \vdash e_1:\tau_1\quad\Gamma \vdash e_2:\tau_2}{\Gamma \vdash <e_1;e_2>:\tau_1\times tau_2}\\\\
+&\frac{\Gamma \vdash e:tau_1\times\tau_2}{\Gamma \vdash e\cdot l:\tau_1}\\\\
+&\frac{\Gamma \vdash e:tau_1\times\tau_2}{\Gamma \vdash e\cdot r:\tau_2}\\\\
+\end{aligned}
+$$
+
+#### 动态语义
+
+$$
+\begin{aligned}
+&\frac{}{<>\ val}\\\\
+&\frac{[e_1\ val]\quad [e_2\ val]}{<e_1;e_2>\ val}\\\\
+&\left [\frac{e_1\mapsto e_1'}{<e_1;e_2>\mapsto <e_1';e_2>}\right ]\\\\
+&\left [\frac{e_1\ val\quad e_2\mapsto e_2'}{<e_1;e_2>\mapsto <e_1;e_2'>}\right ]\\\\
+&\frac{e\mapsto e'}{e\cdot l\mapsto e'\cdot l}\\\\
+&\frac{e\mapsto e'}{e\cdot r\mapsto e'\cdot r}\\\\
+&\frac{[e_1\ val]\quad [e_2\ val]}{<e_1;e_2>\cdot l\mapsto e_1}\\\\
+&\frac{[e_1\ val]\quad [e_2\ val]}{<e_1;e_2>\cdot r\mapsto e_2}\\\\
+\end{aligned}
+$$
+
+#### 安全性
+
+定理10.1：
+
+1. 如果$e:\tau$且$e\mapsto e'$，则$e':\tau$；
+2. 如果$e:\tau$，那么必有$e\ val$或存在$e'$满足$e\mapsto e'$。
+
+### 原始互递归
+
+可以简化原始递归，使得传递给后继分支的只有前驱的递归结果而没有前驱本身$iter\{e_0;y.e_1\}(e)$，于是$rec\{e_0;x.y.e_1\}(e)$可以定义为$e'\cdot r$，其中$e'$是表达式：
+$iter\{<z,e_0>;x'.<s(x'\cdot l),[x'\cdot r/x]e_1>\}(e)$
+
+???+ example "🌰"
+    奇偶函数的递归方程：
+    $$
+    \begin{aligned}
+    &e(0)&&=&1\\
+    &o(0)&&=&0\\
+    &e(n+1)&&=&o(n)\\
+    &o(n+1)&&=&e(n)\\
+    \end{aligned}
+    $$
+
+    首先定义辅助函数$e_{eo}$，其类型为$nat\to (nat\times nat)$，即：
+    $\lambda(n:nat)\ iter\ n\{z\hookrightarrow <1,0>|s(b)\hookrightarrow <b\cdot r,b\cdot l>\}$
+
+    于是：
+
+    $$
+    \begin{aligned}
+    &e_{ev}\triangleq\lambda(n:nat)\ e_{eo}(n)\cdot l\\
+    &e_{od}\triangleq\lambda(n:nat)\ e_{eo}(n)\cdot r\\
+    $$
+
+### 积类型的PL意义
+
+在大多数常见的计算机语言中，复合数据类型都是积类型。（例如结构体）
+
+## Sum Types
+
+### 空和与二元和
+
+#### 语法
+
+$$
+\begin{aligned}
+Typ\quad \tau\quad ::=\quad &void\quad& &void\quad& &空和&\\
+&sum(\tau_1;\tau_2)\quad& &\tau_1+\tau_2\quad& &二元和&\\
+Exp\quad e\quad ::=\quad &abort\{\tau\}(e)\quad& &abort(e)\quad& &中止&\\
+&in[l]\{\tau_1;\tau_2\}(e)\quad& &l\cdot e\quad& &左注入&\\
+&in[r]\{\tau_1;\tau_2\}(e)\quad& &r\cdot e\quad& &右注入&\\
+&case(e;x_1.e_1;x_2.e_2)\quad& &case(e\{l\cdot x_1 \hookrightarrow e_1 | r\cdot x_2 \hookrightarrow e_2\})\quad& &情况分析&\\
+\end{aligned}
+$$
+
+注入运算$l\cdot e$表示结果$e+e'$，加在左边。
+
+#### 静态语义
+
+懒得抄
+
+#### 动态语义
+
+懒得抄
+
+### 和类型的PL意义
+
+例如枚举类型，其中的值不会同时出现，只能取其一。
+
+!!! warning "attention"
+    C语言的union不是和类型，union是对内存空间的复用，可以同时解释为多个类型。事实上union是一种简单数据类型，不是和/积类型。
+    和类型只能取一种类型。
+
+### 和类型的应用
+
+#### void和unit
+
+unit有且仅有一个元素`<>`，void没有元素。
+
+#### 布尔类型
+
+$$
+\begin{aligned}
+Typ\quad \tau\quad ::=\quad &bool\quad& &bool\quad& &布尔类型&\\
+Exp\quad e\quad ::=\quad &true\quad& &true\quad& &真&\\
+&false\quad& &false\quad& &假&\\
+&if(e;e_1;e_2)\quad& &if\ e\ then\ e_1\ else\ e_2\quad& &条件&\\
+\end{aligned}
+$$
+
+布尔类型可以用二元和与空积来定义：
+
+$$
+\begin{aligned}
+bool &=& unit+unit\\
+true &=& l\cdot <>\\
+false &=& r\cdot <>\\
+if\ e\ then\ e_1\ else\ e_2 &=& case\ e\{l\cdot x_1\hookrightarrow e_1|r\cdot x_2\hookrightarrow e_2\}\\
+\end{aligned}
+$$
 
