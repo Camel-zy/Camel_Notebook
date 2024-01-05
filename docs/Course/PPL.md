@@ -57,9 +57,9 @@ $\lambda$项$t$是封闭的，当且仅当$FV(t)=\emptyset$，即$t$不包含自
 相对封闭：$t$相对于$t'$封闭，当且仅当$FV(t)\cap BV(t')=\emptyset$。
 
 ???+ example
-    $t=\lambda x.(\lambda x.x)(xx)$
+    $t=\lambda x.(\lambda x.x)(x\ x)$
 
-    $(xx)$相对于$\lambda x.x$不是封闭的。
+    $(x\ x)$相对于$\lambda x.x$不是封闭的。
 
 !!! quote "引理"
     闭项$s$相对于任意词项$t$封闭。
@@ -72,7 +72,7 @@ $\lambda$记法是$\lambda$演算的一部分，这个演算用于对$\lambda$�
 
 - 公理语义：推导表达式之间等式的形式系统。
 - 操作语义：基于归约(reduce)的有向形式。
-- 指称语义：TODO
+- 指称语义：
 
 #### 等式语义
 
@@ -122,7 +122,7 @@ reduction, 归约等价
     $$
     \begin{aligned}
     &\lambda y.\lambda z.(\lambda x.\lambda y.x)y\ z\\\\
-    &\equiv_\beta\lambda y.\lambda z.(\lambda y.y)y\ z\\\\
+    &\equiv_\beta\lambda y.\lambda z.(\lambda y.y)\ z\\\\
     &\equiv_\beta\lambda y.\lambda z.z\\\\
     \end{aligned}
     $$
@@ -189,6 +189,7 @@ $$
 
 ??? question "why?"
     根据`if`语义理解:
+
     $$
     \begin{aligned}
     &(\lambda x.\lambda y.x)a\ b=(\lambda y.a)b=a\\\\
@@ -336,6 +337,7 @@ $A[X]=\{A[X]_s\}_{s\in S}$是满足以下条件的最小族：
 如果$a\in A[X,x]_s$，且$b\in A[X]_s$，则用$b$代换$a$中出现的所有$x$得到的结果是$[b/x]a\in A[X]_s$ 。
 
 定义ast a为代换目标，x为代换主体，代换由以下等式定义：
+
 - $[b/x]x=b$，且当$x\ne y$时，$[b/x]y=y$；
 - $[b/x]o(a_1,...,a_n)=o([b/x]a_1,...,[b/x]a_n)$。
 
@@ -654,7 +656,7 @@ $$
 #### 动态语义
 
 $$
-\frac{}{fun{\tau_1;\tau_2}(x_1.e_2;f.e)\longmapsto [[x_1.e_2/f]]e
+\frac{}{fun\{\tau_1;\tau_2\}(x_1.e_2;f.e)\longmapsto [[x_1.e_2/f]]e}
 $$
 
 ### 高阶函数
@@ -705,7 +707,7 @@ $$
 
 引理8.5：
 
-如果$e:arr(\tau_1;\tau_2)，且$e\ val$，那么对满足$x:\tau_1\vdash \e_2:\tau_2$的变量$x$和表达式$e_2$，有$e=\lambda(x:\tau_1)e2$
+如果$e:arr(\tau_1;\tau_2)$，且$e\ val$，那么对满足$x:\tau_1\vdash\ e_2:\tau_2$的变量$x$和表达式$e_2$，有$e=\lambda(x:\tau_1)e_2$
 
 #### 进展性
 
@@ -971,6 +973,7 @@ $iter\{<z,e_0>;x'.<s(x'\cdot l),[x'\cdot r/x]e_1>\}(e)$
     \begin{aligned}
     &e_{ev}\triangleq\lambda(n:nat)\ e_{eo}(n)\cdot l\\
     &e_{od}\triangleq\lambda(n:nat)\ e_{eo}(n)\cdot r\\
+    \end{aligned}
     $$
 
 ### 积类型的PL意义
@@ -1033,10 +1036,10 @@ $$
 
 $$
 \begin{aligned}
-bool &=& unit+unit\\
-true &=& l\cdot <>\\
-false &=& r\cdot <>\\
-if\ e\ then\ e_1\ else\ e_2 &=& case\ e\{l\cdot x_1\hookrightarrow e_1|r\cdot x_2\hookrightarrow e_2\}\\
+&bool& &=& &unit+unit&\\
+&true& &=& &l\cdot <>&\\
+&false& &=& &r\cdot <>&\\
+&if\ e\ then\ e_1\ else\ e_2& &=& &case\ e\{l\cdot x_1\hookrightarrow e_1|r\cdot x_2\hookrightarrow e_2\}&\\
 \end{aligned}
 $$
 
