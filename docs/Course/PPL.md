@@ -281,6 +281,8 @@ $Y = \lambda p.(\lambda f.p\ (f\ f))(\lambda f.p\ (f\ f))$
     $proto\ proto\ =\ (\lambda f.\lambda n.\ is\_zero\ n\ 0\ (n+f\ f\ (pred\ n)))\ proto\\
     =\ \lambda n.\ is\_zero\ n\ 0\ (n+proto\ proto\ (pred\ n))$，将proto代入，替换$f$
 
+    我们发现，$proto\ proto$就是我们所需的递归函数。
+
     $sum\ =\ proto\ proto\\
     =\ \lambda n.\ is\_zero\ n\ 0\ (n+sum\ (pred\ n))$
 
@@ -957,10 +959,10 @@ $iter\{<z,e_0>;x'.<s(x'\cdot l),[x'\cdot r/x]e_1>\}(e)$
     奇偶函数的递归方程：
     $$
     \begin{aligned}
-    &e(0)&&=&1\\
-    &o(0)&&=&0\\
-    &e(n+1)&&=&o(n)\\
-    &o(n+1)&&=&e(n)\\
+    &e(0)&&=&1\\\\
+    &o(0)&&=&0\\\\
+    &e(n+1)&&=&o(n)\\\\
+    &o(n+1)&&=&e(n)\\\\
     \end{aligned}
     $$
 

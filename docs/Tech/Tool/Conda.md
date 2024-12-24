@@ -57,3 +57,13 @@ conda install --file requirements.txt
 ```bash
 conda config --add channels conda-forge
 ```
+
+# 2 遇到问题
+
+## pip将依赖包默认安装至C盘
+
+pip将依赖包均安装至`C:\Users\<User-Name>\AppData\Roaming\Python`下，而非conda目录下。
+
+根据网上一些教程修改`Python\Lib\site.py`文件中的`USER_SITE`和`USER_BASE`变量后无果。使用命令`python -m site`后显示的`USER_SITE`和`USER_BASE`仍然是C盘下目录。
+
+解决方法：增加环境变量`PYTHONUSERBASE`后即可调整目录。
